@@ -1,0 +1,3 @@
+interface ITurnAction {
+    timestamp: Date;
+}
