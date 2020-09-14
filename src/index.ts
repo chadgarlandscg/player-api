@@ -1,6 +1,8 @@
-import typeorm from "typeorm";
+import * as typeorm from "typeorm";
 import express, { Response } from "express";
 import cors from "cors";
+import { Game } from "./Entities/Game";
+import { Player } from "./Entities/Player";
 
 async function runApp() {
     const connection = await typeorm.createConnection({
@@ -9,7 +11,9 @@ async function runApp() {
         port: 5432,
         username: "postgres",
         password: "psql",
-        database: "player-api"
+        database: "player-api",
+        synchronize: true,
+        entities: [Game, Player]
     });
 
     const app = express();
