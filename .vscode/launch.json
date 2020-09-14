@@ -7,11 +7,12 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\server.js"
+            "name": "Launch TS Program",
+            "program": "${workspaceFolder}/src/index.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outputCapture": "std",
+            "skipFiles": ["<node_internals>/**"],
+            "outFiles": ["${workspaceFolder}/out/**/*.js"]
         }
     ]
 }
