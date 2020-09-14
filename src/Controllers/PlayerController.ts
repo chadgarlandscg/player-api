@@ -1,14 +1,15 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
 import { PlayerDao } from "../Data/PlayerDao";
 import { Player } from "../Entities/Player";
+import { PlayerService } from "../Services/PlayerService";
 
 export class PlayerController {
     public readonly base: string = "/players";
     public readonly router: Router;
-    private readonly playerDao: PlayerDao;
+    private readonly playerService: PlayerService;
 
     constructor() {
-        this.playerDao = new PlayerDao();
+        this.playerService = new PlayerService();
         this.router = Router();
         this.router.get("/", this.search.bind(this));
         this.router.get("/:id", this.get.bind(this));
@@ -16,12 +17,12 @@ export class PlayerController {
     }
 
     async search(request: Request, response: Response): Promise<any> {
-        const players = await this.playerDao.searchPlayers();
+        const players = await this.playerService.searchPlayers();
         response.send(players);
     }
 
     async get(request: Request, response: Response): Promise<any> {
-        const player = await this.playerDao.getPlayer(+request.params.id);
+        const player = await this.playerService.getPlayer(+request.params.id);
         response.send(player);
     }
 
@@ -29,7 +30,7 @@ export class PlayerController {
         const {name, email} = request.body;
         if (!name) return response.status(400).json({ error: 'Player name must be provided!' });
         if (!email) return response.status(400).json({ error: 'Player email must be provided!' });
-        const newlyRegisteredPlayer = await this.playerDao.registerPlayer(name, email);
+        const newlyRegisteredPlayer = await this.playerService.registerPlayer(name, email);
         response.send(newlyRegisteredPlayer);
     }
 }
