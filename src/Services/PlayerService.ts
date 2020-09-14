@@ -1,11 +1,13 @@
 import { PlayerDao } from "../Data/PlayerDao";
 import { Player } from "../Entities/Player";
+import { IPlayerService } from "./IPlayerService";
+import { IPlayerDao } from "../Data/IPlayerDao";
 
-export class PlayerService {
-    private readonly playerDao: PlayerDao;
+export class PlayerService implements IPlayerService {
+    private readonly playerDao: IPlayerDao;
 
-    constructor() {
-        this.playerDao = new PlayerDao();
+    constructor(playerDao: IPlayerDao) {
+        this.playerDao = playerDao;
     }
 
     async searchPlayers(): Promise<Player[]> {

@@ -5,6 +5,7 @@ import { Game } from "./Entities/Game";
 import { Player } from "./Entities/Player";
 import { PlayerDao } from "./Data/PlayerDao";
 import { PlayerController } from "./Controllers/PlayerController";
+import { PlayerService } from "./Services/PlayerService";
 
 async function runApp() {
     const connection = await typeorm.createConnection({
@@ -18,13 +19,11 @@ async function runApp() {
         entities: [Game, Player]
     });
 
-    const playerDao = new PlayerDao();
-
     const app = express();
     app.use(express.json());
     app.use(cors());
 
-    const playerController = new PlayerController();
+    const playerController = new PlayerController(new PlayerService(new PlayerDao(connection.getRepository(Player))));
     app.use(playerController.base, playerController.router);
     
     app.listen(9999, () => {

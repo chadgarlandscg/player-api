@@ -1,15 +1,15 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
-import { PlayerDao } from "../Data/PlayerDao";
-import { Player } from "../Entities/Player";
 import { PlayerService } from "../Services/PlayerService";
+import { IController } from "./IController";
+import { IPlayerService } from "../Services/IPlayerService";
 
-export class PlayerController {
+export class PlayerController implements IController {
     public readonly base: string = "/players";
     public readonly router: Router;
-    private readonly playerService: PlayerService;
+    private readonly playerService: IPlayerService;
 
-    constructor() {
-        this.playerService = new PlayerService();
+    constructor(playerService: IPlayerService) {
+        this.playerService = playerService;
         this.router = Router();
         this.router.get("/", this.search.bind(this));
         this.router.get("/:id", this.get.bind(this));
