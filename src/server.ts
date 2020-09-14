@@ -1,6 +1,10 @@
-const typeorm = require("typeorm");
-const express = require("express");
-const cors = require("cors");
+import * as typeorm from "typeorm";
+import express from "express";
+import cors from "cors";
+import { Game } from "./Entities/Game";
+import { Player } from "./Entities/Player";
+import { PlayerDao } from "./Data/PlayerDao";
+import { PlayerService } from "./Services/PlayerService";
 
 // typeorm.createConnection({
 //     type: "postgres",
@@ -22,31 +26,36 @@ async function runApp() {
         port: 5432,
         username: "postgres",
         password: "psql",
-        database: "postgres"
+        database: "player-api",
+        synchronize: true,
+        entities: [Game, Player]
     });
 
     const app = express();
     app.use(express.json());
     app.use(cors());
 
+    const playerService = new PlayerService();
+
     app.get("/players", async (request, response) => {
-        const players = await connection.query("SELECT * FROM player");
+        const players = await playerService.searchPlayers();
         response.send(players);
     });
 
     app.get("/players/:id", async (request, response) => {
-        const results = await connection.query("SELECT * FROM player where id = $1", [request.params.id]);
-        const player = results[0];
+        const player = await playerService.getPlayer(+request.params.id);
         response.send(player);
     });
 
     app.post("/players", async (request, response) => {
-        const playerNameFromPayload = request.body.name;
-        if (!playerNameFromPayload) {
+        if (!request.body.name) {
             return response.status(400).json({ error: 'Player name must be provided!' });
         }
-        await connection.query(`INSERT INTO public.player ("name", health) VALUES($1, 100);`, [playerNameFromPayload]);
-        response.send("Success!");
+        if (!request.body.email) {
+            return response.status(400).json({ error: 'Player email must be provided!' });
+        }
+        const savedPlayer = await playerService.registerPlayer(request.body.name, request.body.email);
+        response.send(savedPlayer);
     })
     
     app.listen(9999, () => {
