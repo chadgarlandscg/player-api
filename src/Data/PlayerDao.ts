@@ -7,21 +7,19 @@ export class PlayerDao implements IPlayerDao {
     constructor(playerRepository: Repository<Player>) {
         this.playerRepository = playerRepository;
     }
+
     async getPlayer(id: number): Promise<Player | undefined> {
-        const playerRepository = getRepository(Player);
-        const player = await playerRepository.findOne(id);
+        const player = await this.playerRepository.findOne(id);
         return player;
     }
 
     async searchPlayers(): Promise<Player[]> {
-        const playerRepository = getRepository(Player);
-        const players = await playerRepository.find();
+        const players = await this.playerRepository.find();
         return players;
     }
 
     async savePlayer(player: Player): Promise<Player> {
-        const playerRepository = getRepository(Player);
-        const savedPlayer = await playerRepository.save(player);
+        const savedPlayer = await this.playerRepository.save(player);
         return savedPlayer;
     }
 }
