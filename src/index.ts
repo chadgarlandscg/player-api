@@ -1,14 +1,15 @@
+import "reflect-metadata" // gives us decorators for the di container
 import * as typeorm from "typeorm";
 import express, { Response } from "express";
 import cors from "cors";
 import { Game } from "./Entities/Game";
 import { Player } from "./Entities/Player";
-import { PlayerDao } from "./Data/PlayerDao";
-import { PlayerController } from "./Controllers/PlayerController";
-import { PlayerService } from "./Services/PlayerService";
+import { InversifyExpressServer } from "inversify-express-utils";
+import { bindings } from "./ioc/inversify.config";
+import { Container } from "inversify";
 
 async function runApp() {
-    const connection = await typeorm.createConnection({
+    await typeorm.createConnection({
         type: "postgres",
         host: "localhost",
         port: 5432,
@@ -19,16 +20,15 @@ async function runApp() {
         entities: [Game, Player]
     });
 
-    const app = express();
-    app.use(express.json());
-    app.use(cors());
+    const container = new Container();
+    container.load(bindings);
+    const server = new InversifyExpressServer(container);
+    server.setConfig(app => {
+        app.use(express.json());
+        app.use(cors());
+    })
 
-    const playerController = new PlayerController(new PlayerService(new PlayerDao(connection.getRepository(Player))));
-    app.use(playerController.base, playerController.router);
-    
-    app.listen(9999, () => {
-        console.log("app is running");
-    });
+    server.build().listen(9999, () => console.log("Server app is listening."));
 }
 
 runApp();

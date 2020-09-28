@@ -1,31 +1,31 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
-import { PlayerService } from "../Services/PlayerService";
 import { IController } from "./IController";
+import { interfaces, controller, httpGet, httpPost } from "inversify-express-utils"
 import { IPlayerService } from "../Services/IPlayerService";
+import { inject } from "inversify";
+import TYPES from "../ioc/types";
 
-export class PlayerController implements IController {
-    public readonly base: string = "/players";
-    public readonly router: Router;
+@controller("/players")
+export class PlayerController implements interfaces.Controller {
     private readonly playerService: IPlayerService;
 
-    constructor(playerService: IPlayerService) {
+    constructor(@inject(TYPES.IPlayerService) playerService: IPlayerService) {
         this.playerService = playerService;
-        this.router = Router();
-        this.router.get("/", this.search.bind(this));
-        this.router.get("/:id", this.get.bind(this));
-        this.router.post("/", this.create.bind(this));
     }
 
+    @httpGet("/")
     async search(request: Request, response: Response): Promise<any> {
         const players = await this.playerService.searchPlayers();
         response.send(players);
     }
 
+    @httpGet("/:id")
     async get(request: Request, response: Response): Promise<any> {
         const player = await this.playerService.getPlayer(+request.params.id);
         response.send(player);
     }
 
+    @httpPost("/")
     async create(request: Request, response: Response): Promise<any> {
         const {name, email} = request.body;
         if (!name) return response.status(400).json({ error: 'Player name must be provided!' });

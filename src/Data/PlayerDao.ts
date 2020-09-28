@@ -1,10 +1,14 @@
 import { Player } from "../Entities/Player";
 import { getRepository, Repository } from "typeorm";
 import { IPlayerDao } from "./IPlayerDao";
+import { injectable, inject } from "inversify";
+import TYPES from "../ioc/types";
 
+@injectable()
 export class PlayerDao implements IPlayerDao {
     private readonly playerRepository: Repository<Player>;
-    constructor(playerRepository: Repository<Player>) {
+    
+    constructor(@inject(TYPES.IPlayerRepository) playerRepository: Repository<Player>) {
         this.playerRepository = playerRepository;
     }
 

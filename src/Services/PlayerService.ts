@@ -2,11 +2,14 @@ import { PlayerDao } from "../Data/PlayerDao";
 import { Player } from "../Entities/Player";
 import { IPlayerService } from "./IPlayerService";
 import { IPlayerDao } from "../Data/IPlayerDao";
+import { injectable, inject } from "inversify";
+import TYPES from "../ioc/types";
 
+@injectable()
 export class PlayerService implements IPlayerService {
     private readonly playerDao: IPlayerDao;
 
-    constructor(playerDao: IPlayerDao) {
+    constructor(@inject(TYPES.IPlayerDao) playerDao: IPlayerDao) {
         this.playerDao = playerDao;
     }
 
