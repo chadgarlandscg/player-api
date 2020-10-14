@@ -2,8 +2,8 @@ import "reflect-metadata" // gives us decorators for the di container
 import * as typeorm from "typeorm";
 import express, { Response } from "express";
 import cors from "cors";
-import { Game } from "./Entities/Game";
-import { Player } from "./Entities/Player";
+import { Game } from "./Data/Entities/Game";
+import { Player } from "./Data/Entities/Player";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { bindings } from "./ioc/inversify.config";
 import { Container } from "inversify";

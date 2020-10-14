@@ -1,4 +1,4 @@
-import { Player } from "../Entities/Player";
+import { Player } from "./Entities/Player";
 import { getRepository } from "typeorm";
 
 export interface IPlayerDao {

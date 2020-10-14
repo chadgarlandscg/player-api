@@ -1,5 +1,5 @@
 import { GameDao } from "../Data/GameDao";
-import { Game } from "../Entities/Game";
+import { Game } from "../Data/Entities/Game";
 
 export interface IGameService {
     searchGames(): Promise<Game[]>;

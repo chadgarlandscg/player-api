@@ -1,4 +1,4 @@
-import { Game } from "../Entities/Game";
+import { Game } from "./Entities/Game";
 import { getRepository, Repository } from "typeorm";
 import { IGameDao } from "./IGameDao";
 import { injectable, inject } from "inversify";

@@ -1,5 +1,5 @@
 import { PlayerDao } from "../Data/PlayerDao";
-import { Player } from "../Entities/Player";
+import { Player } from "../Data/Entities/Player";
 import { IPlayerService } from "./IPlayerService";
 import { IPlayerDao } from "../Data/IPlayerDao";
 import { injectable, inject } from "inversify";

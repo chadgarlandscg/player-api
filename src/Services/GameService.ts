@@ -1,11 +1,11 @@
 import { GameDao } from "../Data/GameDao";
-import { Game } from "../Entities/Game";
+import { Game } from "../Data/Entities/Game";
 import { IGameService } from "./IGameService";
 import { IGameDao } from "../Data/IGameDao";
 import { injectable, inject } from "inversify";
 import TYPES from "../ioc/types";
 import { GameModel } from "./Models/GameModel";
-import { Player } from "../Entities/Player";
+import { Player } from "../Data/Entities/Player";
 import { PlayerModel } from "./Models/PlayerModel";
 import { IPlayerService } from "./IPlayerService";
 

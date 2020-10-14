@@ -4,13 +4,13 @@ import { PlayerService } from "../Services/PlayerService";
 import { PlayerDao } from "../Data/PlayerDao";
 import { IPlayerService } from "../Services/IPlayerService";
 import { IPlayerDao } from "../Data/IPlayerDao";
-import { Player } from "../Entities/Player";
+import { Player } from "../Data/Entities/Player";
 import { Repository, getRepository } from "typeorm";
 import { IGameService } from "../Services/IGameService";
 import { IGameDao } from "../Data/IGameDao";
 import { GameService } from "../Services/GameService";
 import { GameDao } from "../Data/GameDao";
-import { Game } from "../Entities/Game";
+import { Game } from "../Data/Entities/Game";
 
 import "../Controllers/PlayerController" // auto-binding courtesy of the utils
 import "../Controllers/GameController" // auto-binding courtesy of the utils

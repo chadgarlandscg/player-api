@@ -1,4 +1,4 @@
-import { Player } from "../Entities/Player";
+import { Player } from "./Entities/Player";
 import { getRepository, Repository } from "typeorm";
 import { IPlayerDao } from "./IPlayerDao";
 import { injectable, inject } from "inversify";
