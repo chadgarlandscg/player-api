@@ -4,18 +4,22 @@ import { IGameService } from "./IGameService";
 import { IGameDao } from "../Data/IGameDao";
 import { injectable, inject } from "inversify";
 import TYPES from "../ioc/types";
-import { IPlayerService } from "./IPlayerService";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { PlayerMapper } from "../Domain/Mappers/PlayerMapper";
+import { IGameRepository } from "../Domain/Repositories/IGameRepository";
+import { IPlayerRepository } from "../Domain/Repositories/IPlayerRepository";
+import { GameView } from "../Controllers/GameView";
 
 @injectable()
 export class GameService implements IGameService {
     private readonly gameDao: IGameDao;
-    private readonly playerService: IPlayerService;
+    private readonly gameRepository: IGameRepository;
+    private readonly playerRepository: IPlayerRepository;
 
-    constructor(@inject(TYPES.IGameDao) gameDao: IGameDao, @inject(TYPES.IPlayerService) playerService: IPlayerService) {
+    constructor(@inject(TYPES.IGameDao) gameDao: IGameDao, @inject(TYPES.IGameRepository) gameRepository: IGameRepository, @inject(TYPES.IPlayerRepository) playerRepository: IPlayerRepository) {
         this.gameDao = gameDao;
-        this.playerService = playerService;
+        this.gameRepository = gameRepository;
+        this.playerRepository = playerRepository;
     }
 
     async searchGames(): Promise<Game[]> {
@@ -37,16 +41,14 @@ export class GameService implements IGameService {
         return newlyRegisteredGame;
     }
 
-    async joinGame(gameId: number, playerId: number): Promise<Game> {
-        const playerData = await this.playerService.getPlayer(playerId);
-        const gameData = await this.getGame(gameId);
-
-        const player = PlayerMapper.toPlayerModel(playerData);
-        const game = GameMapper.toGameModel(gameData);
+    async joinGame(gameId: number, playerId: number): Promise<GameView> {
+        const player = await this.playerRepository.getPlayer(playerId);
+        const game = await this.gameRepository.getGame(playerId);
+        
         game.join(player);
         
-        const updatedGameData = GameMapper.toGameData(game);
-        const savedGameData = this.gameDao.saveGame(updatedGameData);
-        return savedGameData;
+        const savedGame = await this.gameRepository.saveGame(game);
+
+        return GameMapper.toGameView(savedGame);
     }
 }

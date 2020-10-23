@@ -1,5 +1,6 @@
+import { GameView } from "../../Controllers/GameView";
 import { Game } from "../../Data/Entities/Game";
-import { GameModel } from "../Models/GameModel";
+import { GameModel, IGame } from "../Models/GameModel";
 import { PlayerMapper } from "./PlayerMapper";
 
 export class GameMapper {
@@ -18,5 +19,17 @@ export class GameMapper {
         }
 
         return game;
+    }
+    static toGameView(gameModel: IGame): GameView {
+        const gameView = new GameView();
+        gameView.name = gameModel.name;
+        gameView.capacity = gameModel.capacity;
+        gameView.players = gameModel.getPlayers().map(PlayerMapper.toPlayerView);
+
+        if (!!gameModel.id) {
+            gameView.id = gameModel.id;
+        }
+
+        return gameView;
     }
 }

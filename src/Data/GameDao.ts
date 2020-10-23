@@ -6,24 +6,24 @@ import TYPES from "../ioc/types";
 
 @injectable()
 export class GameDao implements IGameDao {
-    private readonly gameRepository: Repository<Game>;
+    private readonly gameDataRepository: Repository<Game>;
     
-    constructor(@inject(TYPES.IGameRepository) gameRepository: Repository<Game>) {
-        this.gameRepository = gameRepository;
+    constructor(@inject(TYPES.IGameDataRepository) gameDataRepository: Repository<Game>) {
+        this.gameDataRepository = gameDataRepository;
     }
 
     async getGame(id: number): Promise<Game | undefined> {
-        const game = await this.gameRepository.findOne(id);
+        const game = await this.gameDataRepository.findOne(id);
         return game;
     }
 
     async searchGames(): Promise<Game[]> {
-        const games = await this.gameRepository.find();
+        const games = await this.gameDataRepository.find();
         return games;
     }
 
     async saveGame(game: Game): Promise<Game> {
-        const savedGame = await this.gameRepository.save(game);
+        const savedGame = await this.gameDataRepository.save(game);
         return savedGame;
     }
 }

@@ -6,24 +6,24 @@ import TYPES from "../ioc/types";
 
 @injectable()
 export class PlayerDao implements IPlayerDao {
-    private readonly playerRepository: Repository<Player>;
+    private readonly playerDataRepository: Repository<Player>;
     
-    constructor(@inject(TYPES.IPlayerRepository) playerRepository: Repository<Player>) {
-        this.playerRepository = playerRepository;
+    constructor(@inject(TYPES.IPlayerDataRepository) playerDataRepository: Repository<Player>) {
+        this.playerDataRepository = playerDataRepository;
     }
 
     async getPlayer(id: number): Promise<Player | undefined> {
-        const player = await this.playerRepository.findOne(id);
+        const player = await this.playerDataRepository.findOne(id);
         return player;
     }
 
     async searchPlayers(): Promise<Player[]> {
-        const players = await this.playerRepository.find();
+        const players = await this.playerDataRepository.find();
         return players;
     }
 
     async savePlayer(player: Player): Promise<Player> {
-        const savedPlayer = await this.playerRepository.save(player);
+        const savedPlayer = await this.playerDataRepository.save(player);
         return savedPlayer;
     }
 }

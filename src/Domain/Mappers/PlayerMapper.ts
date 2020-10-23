@@ -1,3 +1,4 @@
+import { PlayerView } from "../../Controllers/PlayerView";
 import { Player } from "../../Data/Entities/Player";
 import { PlayerModel } from "../Models/PlayerModel";
 
@@ -15,5 +16,14 @@ export class PlayerMapper {
         }
 
         return player;
+    }
+    static toPlayerView(playerModel: PlayerModel): PlayerView {
+        const playerView = new PlayerView();
+        playerView.name = playerModel.name;
+        if (!!playerModel.id) {
+            playerView.id = playerModel.id;
+        }
+
+        return playerView;
     }
 }
