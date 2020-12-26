@@ -1,9 +1,10 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
-import { IController } from "./IController";
 import { interfaces, controller, httpGet, httpPost } from "inversify-express-utils"
 import { IPlayerService } from "../Services/IPlayerService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
+import { PlayerView } from "./PlayerView";
+import { PlayerMapper } from "../Domain/Mappers/PlayerMapper";
 
 @controller("/players")
 export class PlayerController implements interfaces.Controller {
@@ -14,23 +15,22 @@ export class PlayerController implements interfaces.Controller {
     }
 
     @httpGet("/")
-    async search(request: Request, response: Response): Promise<any> {
+    async search(): Promise<PlayerView[]> {
         const players = await this.playerService.searchPlayers();
-        response.send(players);
+        return players.map(PlayerMapper.toPlayerView);
     }
 
     @httpGet("/:id")
-    async get(request: Request, response: Response): Promise<any> {
+    async get(request: Request): Promise<PlayerView> {
         const player = await this.playerService.getPlayer(+request.params.id);
-        response.send(player);
+        return PlayerMapper.toPlayerView(player);
     }
 
     @httpPost("/")
-    async create(request: Request, response: Response): Promise<any> {
-        const {name, email} = request.body;
-        if (!name) return response.status(400).json({ error: 'Player name must be provided!' });
-        if (!email) return response.status(400).json({ error: 'Player email must be provided!' });
-        const newlyRegisteredPlayer = await this.playerService.registerPlayer(name, email);
-        response.send(newlyRegisteredPlayer);
+    async create(request: Request): Promise<PlayerView> {
+        const {username} = request.body;
+        if (!username) throw new Error("Player username must be provided.");
+        const newlyRegisteredPlayer = await this.playerService.registerPlayer(username);
+        return PlayerMapper.toPlayerView(newlyRegisteredPlayer);
     }
 }

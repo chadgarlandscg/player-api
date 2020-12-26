@@ -7,6 +7,7 @@ import { Player } from "./Data/Entities/Player";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { bindings } from "./ioc/inversify.config";
 import { Container } from "inversify";
+import { GameType } from "./Data/Entities/GameType";
 
 async function runApp() {
     await typeorm.createConnection({
@@ -15,9 +16,9 @@ async function runApp() {
         port: 5432,
         username: "postgres",
         password: "psql",
-        database: "player-api",
+        database: "api-games",
         synchronize: true,
-        entities: [Game, Player]
+        entities: [Game, GameType, Player]
     });
 
     const container = new Container();

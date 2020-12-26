@@ -1,4 +1,5 @@
 export class PlayerView {
     id: number;
-    name: string;
+    username: string;
+    code: string;
 }

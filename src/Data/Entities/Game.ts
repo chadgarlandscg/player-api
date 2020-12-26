@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
+import { GameType } from "./GameType";
 import { Player } from "./Player";
 
 @Entity()
@@ -10,8 +11,8 @@ export class Game {
     name: string;
 
     @Column()
-    capacity: number;
+    gameTypeId: number;
 
-    @ManyToMany(type => Player)
-    players: Player[];
+    @ManyToOne(type => GameType)
+    type: GameType;
 }

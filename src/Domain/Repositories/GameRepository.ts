@@ -2,8 +2,9 @@ import { IGameRepository } from "./IGameRepository";
 import { injectable, inject } from "inversify";
 import { IGameDao } from "../../Data/IGameDao";
 import TYPES from "../../ioc/types";
-import { GameModel, IGame } from "../Models/GameModel";
+import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
 import { GameMapper } from "../Mappers/GameMapper";
+import { ConcreteGameType, GameTypeModel } from "../Models/ConcreteGameType";
 
 @injectable()
 export class GameRepository implements IGameRepository {
@@ -31,5 +32,14 @@ export class GameRepository implements IGameRepository {
         const savedGameData = await this.gameDao.saveGame(gameData);
         const savedGame = GameMapper.toGameModel(savedGameData);
         return savedGame;
+    }
+
+    createGame(name: string, gameType: GameTypeModel): GameModel {
+        switch (gameType.type) {
+            case ConcreteGameType.RockPaperScissors:
+                return new RockPaperScissors(gameType.id, name);      
+            default:
+                return new GameModel(gameType, name);
+        }        
     }
 }

@@ -4,13 +4,13 @@ import { PlayerModel } from "../Models/PlayerModel";
 
 export class PlayerMapper {
     static toPlayerModel(player: Player): PlayerModel {
-        const playerModel = new PlayerModel(player.name, player.email, player.id);
+        const playerModel = new PlayerModel(player.username, player.code, player.id);
         return playerModel;
     }
     static toPlayerData(playerModel: PlayerModel): Player {
         const player = new Player();
-        player.name = playerModel.name;
-        player.email = playerModel.email;
+        player.username = playerModel.username;
+        player.code = playerModel.code;
         if (!!playerModel.id) {
             player.id = playerModel.id;
         }
@@ -19,7 +19,8 @@ export class PlayerMapper {
     }
     static toPlayerView(playerModel: PlayerModel): PlayerView {
         const playerView = new PlayerView();
-        playerView.name = playerModel.name;
+        playerView.username = playerModel.username;
+        playerView.code = playerModel.code;
         if (!!playerModel.id) {
             playerView.id = playerModel.id;
         }

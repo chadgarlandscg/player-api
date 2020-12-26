@@ -1,9 +1,11 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
-import { IController } from "./IController";
-import { interfaces, controller, httpGet, httpPost } from "inversify-express-utils"
+import { interfaces, controller, httpGet, httpPost, requestBody } from "inversify-express-utils"
 import { IGameService } from "../Services/IGameService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
+import { GameView } from "./GameView";
+import { GameMapper } from "../Domain/Mappers/GameMapper";
+import { GameTypeModel } from "../Domain/Models/ConcreteGameType";
 
 @controller("/games")
 export class GameController implements interfaces.Controller {
@@ -14,29 +16,22 @@ export class GameController implements interfaces.Controller {
     }
 
     @httpGet("/")
-    async search(request: Request, response: Response): Promise<any> {
+    async search(): Promise<GameView[]> {
         const games = await this.gameService.searchGames();
-        response.send(games);
+        return games.map(GameMapper.toGameView);
     }
 
     @httpGet("/:id")
-    async get(request: Request, response: Response): Promise<any> {
+    async get(request: Request): Promise<GameView> {
         const game = await this.gameService.getGame(+request.params.id);
-        response.send(game);
+        return GameMapper.toGameView(game);
     }
 
     @httpPost("/")
-    async create(request: Request, response: Response): Promise<any> {
-        const {name, capacity} = request.body;
-        if (!name) return response.status(400).json({ error: 'Game name must be provided!' });
-        if (!capacity) return response.status(400).json({ error: 'Game capacity must be selected!' });
-        const newlyRegisteredGame = await this.gameService.createGame(name, capacity);
-        response.send(newlyRegisteredGame);
-    }
-
-    @httpPost("/:id/players/:playerId")
-    async join(request: Request, response: Response): Promise<any> {
-        const gameWithJoinedPlayer = await this.gameService.joinGame(+request.params.id, +request.params.playerId);
-        response.send(gameWithJoinedPlayer);
+    async create(@requestBody() body: {name: string, gameTypeId: number, gameTypeName: string}): Promise<GameView> {
+        const {name, gameTypeId, gameTypeName} = body;
+        if (!name) throw new Error('Game name must be provided!');
+        const newGame = await this.gameService.createGame(name, new GameTypeModel(gameTypeName, gameTypeId));
+        return GameMapper.toGameView(newGame);
     }
 }

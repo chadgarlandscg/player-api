@@ -1,19 +1,22 @@
 import { GameView } from "../../Controllers/GameView";
 import { Game } from "../../Data/Entities/Game";
-import { GameModel, IGame } from "../Models/GameModel";
+import { ConcreteGameType, GameTypeModel, RockPaperScissorsType } from "../Models/ConcreteGameType";
+import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
 import { PlayerMapper } from "./PlayerMapper";
 
 export class GameMapper {
     static toGameModel(game: Game): GameModel {
-        const gameModel = new GameModel(game.name, game.capacity, game.players?.map(PlayerMapper.toPlayerModel), game.id);
-        return gameModel;
+        switch (game.type?.name) {
+            case ConcreteGameType.RockPaperScissors.toString():
+                return new RockPaperScissors(game.type?.id, game.name, game.id)   
+            default:
+                return new GameModel(new GameTypeModel(game.type?.name, game.type?.id), game.name, game.id);
+        }
     }
     static toGameData(gameModel: GameModel): Game {
         const game = new Game();
         game.name = gameModel.name;
-        game.capacity = gameModel.capacity;
-        game.players = gameModel.getPlayers().map(PlayerMapper.toPlayerData);
-
+        game.gameTypeId = gameModel.gameType.id;
         if (!!gameModel.id) {
             game.id = gameModel.id;
         }
@@ -23,9 +26,7 @@ export class GameMapper {
     static toGameView(gameModel: IGame): GameView {
         const gameView = new GameView();
         gameView.name = gameModel.name;
-        gameView.capacity = gameModel.capacity;
-        gameView.players = gameModel.getPlayers().map(PlayerMapper.toPlayerView);
-
+        gameView.gameType = gameModel.gameType?.name;
         if (!!gameModel.id) {
             gameView.id = gameModel.id;
         }

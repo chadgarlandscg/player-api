@@ -7,11 +7,8 @@ export class Player {
     id: number;
 
     @Column()
-    name: string;
+    username: string;
 
     @Column()
-    email: string;
-
-    @ManyToMany(type => Game)
-    games: Game[];
+    code: string;
 }

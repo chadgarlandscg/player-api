@@ -1,10 +1,11 @@
 import { GameDao } from "../Data/GameDao";
 import { Game } from "../Data/Entities/Game";
 import { GameView } from "../Controllers/GameView";
+import { GameModel, IGame } from "../Domain/Models/GameModel";
+import { IGameType } from "../Domain/Models/ConcreteGameType";
 
 export interface IGameService {
-    searchGames(): Promise<Game[]>;
-    getGame(id: number): Promise<Game>;
-    createGame(name: string, capacity: number): Promise<Game>;
-    joinGame(gameId: number, playerId: number): Promise<GameView>;
+    searchGames(): Promise<IGame[]>;
+    getGame(id: number): Promise<IGame>;
+    createGame(name: string, gameType: IGameType): Promise<GameModel>;
 }
