@@ -18,10 +18,13 @@ import { IGameRepository } from "../Domain/Repositories/IGameRepository";
 import { GameRepository } from "../Domain/Repositories/GameRepository";
 import { IPlayerRepository } from "../Domain/Repositories/IPlayerRepository";
 import { PlayerRepository } from "../Domain/Repositories/PlayerRepository";
+import { IGameMapper } from "../Domain/Mappers/IGameMapper";
+import { GameMapper } from "../Domain/Mappers/GameMapper";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
     bind<IGameDao>(TYPES.IGameDao).to(GameDao);
+    bind<IGameMapper>(TYPES.IGameMapper).to(GameMapper);
     bind<IGameRepository>(TYPES.IGameRepository).to(GameRepository);
     bind<Repository<Game>>(TYPES.IGameDataRepository).toDynamicValue(() => {
         return getRepository(Game);

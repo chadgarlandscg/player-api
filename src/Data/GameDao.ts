@@ -3,27 +3,11 @@ import { getRepository, Repository } from "typeorm";
 import { IGameDao } from "./IGameDao";
 import { injectable, inject } from "inversify";
 import TYPES from "../ioc/types";
+import { Dao } from "../base/Data/Dao";
 
 @injectable()
-export class GameDao implements IGameDao {
-    private readonly gameDataRepository: Repository<Game>;
-    
-    constructor(@inject(TYPES.IGameDataRepository) gameDataRepository: Repository<Game>) {
-        this.gameDataRepository = gameDataRepository;
-    }
-
-    async getGame(id: number): Promise<Game | undefined> {
-        const game = await this.gameDataRepository.findOne(id);
-        return game;
-    }
-
-    async searchGames(): Promise<Game[]> {
-        const games = await this.gameDataRepository.find();
-        return games;
-    }
-
-    async saveGame(game: Game): Promise<Game> {
-        const savedGame = await this.gameDataRepository.save(game);
-        return savedGame;
+export class GameDao extends Dao<Game> implements IGameDao {    
+    constructor(@inject(TYPES.IGameDataRepository) private readonly gameDataRepository: Repository<Game>) {
+        super(gameDataRepository)
     }
 }

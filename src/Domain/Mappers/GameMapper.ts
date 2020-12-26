@@ -1,11 +1,13 @@
+import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
 import { Game } from "../../Data/Entities/Game";
 import { ConcreteGameType, GameTypeModel, RockPaperScissorsType } from "../Models/ConcreteGameType";
 import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
-import { PlayerMapper } from "./PlayerMapper";
+import { IGameMapper } from "./IGameMapper";
 
-export class GameMapper {
-    static toGameModel(game: Game): GameModel {
+@injectable()
+export class GameMapper implements IGameMapper {
+    toModel(game: Game): GameModel {
         switch (game.type?.name) {
             case ConcreteGameType.RockPaperScissors.toString():
                 return new RockPaperScissors(game.type?.id, game.name, game.id)   
@@ -13,7 +15,7 @@ export class GameMapper {
                 return new GameModel(new GameTypeModel(game.type?.name, game.type?.id), game.name, game.id);
         }
     }
-    static toGameData(gameModel: GameModel): Game {
+    toData(gameModel: GameModel): Game {
         const game = new Game();
         game.name = gameModel.name;
         game.gameTypeId = gameModel.gameType.id;
@@ -23,7 +25,7 @@ export class GameMapper {
 
         return game;
     }
-    static toGameView(gameModel: IGame): GameView {
+    toView(gameModel: IGame): GameView {
         const gameView = new GameView();
         gameView.name = gameModel.name;
         gameView.gameType = gameModel.gameType?.name;

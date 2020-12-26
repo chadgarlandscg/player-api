@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import { IDao } from "./IDao";
 import { IDataEntity } from "./IDataEntity";
 import { IDataRepository } from "./IDataRepository";
 
-export abstract class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
+@injectable()
+export class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
     private readonly dataRepository: IDataRepository<TDataEntity>;
     
     constructor(dataRepository: IDataRepository<TDataEntity>) {

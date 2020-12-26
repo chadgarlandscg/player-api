@@ -5,33 +5,17 @@ import TYPES from "../../ioc/types";
 import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
 import { GameMapper } from "../Mappers/GameMapper";
 import { ConcreteGameType, GameTypeModel } from "../Models/ConcreteGameType";
+import { Repository } from "../../base/Domain/Repositories/Repository";
+import { Game } from "../../Data/Entities/Game";
+import { IGameMapper } from "../Mappers/IGameMapper";
 
 @injectable()
-export class GameRepository implements IGameRepository {
-    private readonly gameDao: IGameDao;
-    
-    constructor(@inject(TYPES.IGameDao) gameDao: IGameDao) {
-        this.gameDao = gameDao;
-    }
-
-    async getGame(id: number): Promise<GameModel> {
-        const gameData = await this.gameDao.getGame(id);
-        if (!gameData) throw new Error("Game not found!");
-        const game = GameMapper.toGameModel(gameData);
-        return game;
-    }
-
-    async searchGames(): Promise<GameModel[]> {
-        const gamesData = await this.gameDao.searchGames();
-        const games = gamesData.map(GameMapper.toGameModel)
-        return games;
-    }
-
-    async saveGame(game: GameModel): Promise<GameModel> {
-        const gameData = GameMapper.toGameData(game);
-        const savedGameData = await this.gameDao.saveGame(gameData);
-        const savedGame = GameMapper.toGameModel(savedGameData);
-        return savedGame;
+export class GameRepository extends Repository<GameModel, Game> implements IGameRepository { 
+    constructor(
+        @inject(TYPES.IGameDao) private readonly gameDao: IGameDao,
+        @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper
+    ) {
+        super(gameDao, gameMapper);
     }
 
     createGame(name: string, gameType: GameTypeModel): GameModel {

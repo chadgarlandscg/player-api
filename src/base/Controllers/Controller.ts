@@ -4,9 +4,10 @@ import { IView } from "./IView";
 import { IViewMapper } from "../Domain/Mappers/IViewMapper";
 import { IService } from "../Services/IService";
 import { IDto } from "../Services/IDto";
+import { injectable } from "inversify";
 
-
-export abstract class Controller<TView extends IView, TDto extends IDto> implements interfaces.Controller {
+@injectable()
+export class Controller<TView extends IView, TDto extends IDto> implements interfaces.Controller {
     private readonly service: IService<TDto>;
     private readonly mapper: IViewMapper<TView>;
 

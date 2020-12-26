@@ -6,25 +6,27 @@ import TYPES from "../ioc/types";
 import { GameView } from "./GameView";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { GameTypeModel } from "../Domain/Models/ConcreteGameType";
+import { Controller } from "../base/Controllers/Controller";
+import { IGame } from "../Domain/Models/GameModel";
+import { IGameMapper } from "../Domain/Mappers/IGameMapper";
 
 @controller("/games")
-export class GameController implements interfaces.Controller {
-    private readonly gameService: IGameService;
-
-    constructor(@inject(TYPES.IGameService) gameService: IGameService) {
-        this.gameService = gameService;
+export class GameController extends Controller<GameView, IGame> implements interfaces.Controller {
+    constructor(
+        @inject(TYPES.IGameService) private readonly gameService: IGameService,
+        @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper
+    ) {
+        super(gameService, gameMapper);
     }
 
     @httpGet("/")
     async search(): Promise<GameView[]> {
-        const games = await this.gameService.searchGames();
-        return games.map(GameMapper.toGameView);
+        return super.search();
     }
 
     @httpGet("/:id")
     async get(request: Request): Promise<GameView> {
-        const game = await this.gameService.getGame(+request.params.id);
-        return GameMapper.toGameView(game);
+        return super.get(request);
     }
 
     @httpPost("/")
@@ -32,6 +34,6 @@ export class GameController implements interfaces.Controller {
         const {name, gameTypeId, gameTypeName} = body;
         if (!name) throw new Error('Game name must be provided!');
         const newGame = await this.gameService.createGame(name, new GameTypeModel(gameTypeName, gameTypeId));
-        return GameMapper.toGameView(newGame);
+        return this.gameMapper.toView(newGame);
     }
 }

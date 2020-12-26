@@ -1,7 +1,6 @@
+import { IDao } from "../base/Data/IDao";
 import { Game } from "./Entities/Game";
 
-export interface IGameDao {
-    getGame(id: number): Promise<Game | undefined>;
-    searchGames(): Promise<Game[]>;
-    saveGame(Game: Game): Promise<Game>;
+export interface IGameDao extends IDao<Game> {
+
 }

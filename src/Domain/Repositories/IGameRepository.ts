@@ -1,9 +1,7 @@
-import { IGameType } from "../Models/ConcreteGameType";
-import { IGame } from "../Models/GameModel";
+import { IRepository } from "../../base/Domain/Repositories/IRepository";
+import { GameTypeModel } from "../Models/ConcreteGameType";
+import { GameModel } from "../Models/GameModel";
 
-export interface IGameRepository {
-    getGame(id: number): Promise<IGame>;
-    searchGames(): Promise<IGame[]>;
-    saveGame(Game: IGame): Promise<IGame>;
-    createGame(name: string, gameType: IGameType): IGame;
+export interface IGameRepository extends IRepository<GameModel> {
+    createGame(name: string, gameType: GameTypeModel): GameModel;
 }

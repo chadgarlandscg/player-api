@@ -1,9 +1,11 @@
+import { injectable } from "inversify";
 import { IAggregate } from "../Domain/Models/IAggregate";
 import { IExactAggregate } from "../Domain/Models/IExactAggregate";
 import { IRepository } from "../Domain/Repositories/IRepository";
 import { IService } from "./IService";
 
-export abstract class Service<TAggregate extends IExactAggregate> implements IService<TAggregate> {
+@injectable()
+export class Service<TAggregate extends IExactAggregate> implements IService<TAggregate> {
     private readonly repository: IRepository<TAggregate>;
 
     constructor(repository: IRepository<TAggregate>) {
