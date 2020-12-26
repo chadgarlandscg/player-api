@@ -1,11 +1,11 @@
-import { Repository } from "typeorm";
 import { IDao } from "./IDao";
 import { IDataEntity } from "./IDataEntity";
+import { IDataRepository } from "./IDataRepository";
 
-export abstract class TypeOrmDao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
-    private readonly dataRepository: Repository<TDataEntity>;
+export abstract class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
+    private readonly dataRepository: IDataRepository<TDataEntity>;
     
-    constructor(dataRepository: Repository<TDataEntity>) {
+    constructor(dataRepository: IDataRepository<TDataEntity>) {
         this.dataRepository = dataRepository;
     }
 

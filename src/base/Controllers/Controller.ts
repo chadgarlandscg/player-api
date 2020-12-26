@@ -1,12 +1,12 @@
-import { Router, Application, Response, RequestHandler, Request } from "express"
-import { interfaces, controller, httpGet, httpPost, requestBody } from "inversify-express-utils"
+import { Request } from "express"
+import { interfaces } from "inversify-express-utils"
 import { IView } from "./IView";
 import { IViewMapper } from "../Domain/Mappers/IViewMapper";
 import { IService } from "../Services/IService";
 import { IDto } from "../Services/IDto";
 
 
-export class InversifyController<TView extends IView, TDto extends IDto> implements interfaces.Controller {
+export abstract class Controller<TView extends IView, TDto extends IDto> implements interfaces.Controller {
     private readonly service: IService<TDto>;
     private readonly mapper: IViewMapper<TView>;
 

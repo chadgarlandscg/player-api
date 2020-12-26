@@ -15,7 +15,7 @@ export abstract class Repository<TAggregate extends IAggregate, TDataEntity exte
 
     async get(id: number): Promise<TAggregate> {
         const data = await this.dao.get(id);
-        if (!data) throw new Error(" not found!");
+        if (!data) throw new Error("Aggregate not found!");
         const aggregate = this.mapper.toModel(data);
         return aggregate;
     }
