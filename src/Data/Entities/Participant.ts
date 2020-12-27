@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
+import { ParticipantStatus } from "../../Domain/Models/StandardTypes/ParticipantStatus";
 import { Game } from "./Game";
 import { Player } from "./Player";
 
@@ -19,4 +20,11 @@ export class Participant {
 
     @Column()
     name: string;
+
+    @Column({
+        type: "enum",
+        enum: ParticipantStatus,
+        default: ParticipantStatus.Ready
+    })
+    status: ParticipantStatus
 }
