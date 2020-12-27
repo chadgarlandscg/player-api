@@ -1,4 +1,5 @@
 import { ValueObject } from "../../base/Domain/Models/ValueObject";
+import { LobbyFullError } from "../Errors/LobbyFullError";
 import { Participant } from "./Participant";
 import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
 
@@ -20,7 +21,7 @@ export class Lobby extends ValueObject {
 
     addParticipant(participant: Participant): Lobby {
         if (this.full()) {
-            throw new Error("Lobby already full!");
+            throw new LobbyFullError();
         }
             
         return new Lobby([...this.participants, participant], this.capacity);
