@@ -3,13 +3,13 @@ import { interfaces, controller, httpGet, httpPost, requestBody } from "inversif
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
 import { GameTypeView } from "./GameTypeView";
-import { IGameTypeRepository } from "../Data/Repositories/IGameTypeRepository";
+import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
 
-@controller("/games")
+@controller("/gameTypes")
 export class GameTypeController implements interfaces.Controller {
-    @inject(TYPES.IGameTypeRepository) private readonly gameTypeRepository: IGameTypeRepository;
+    @inject(TYPES.IGameTypeDataRepository) private readonly gameTypeRepository: IGameTypeDataRepository;
 
-    @httpGet("/types")
+    @httpGet("/")
     async getTypes(): Promise<GameTypeView[]> {
         return this.gameTypeRepository.find();
     }

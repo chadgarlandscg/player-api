@@ -12,6 +12,7 @@ import { GameService } from "../Services/GameService";
 import { GameDao } from "../Data/GameDao";
 import { Game } from "../Data/Entities/Game";
 
+import "../Controllers/GameTypeController" // auto-binding courtesy of the utils
 import "../Controllers/PlayerController" // auto-binding courtesy of the utils
 import "../Controllers/GameController" // auto-binding courtesy of the utils
 import { IGameRepository } from "../Domain/Repositories/IGameRepository";
@@ -22,8 +23,9 @@ import { IGameMapper } from "../Domain/Mappers/IGameMapper";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { IDataRepository } from "../base/Data/IDataRepository";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
-import { GameType } from "../Domain/Models/ConcreteGameType";
-import { MoveType } from "../Data/Entities";
+import * as DataEntities from "../Data/Entities";
+import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
+import { IMoveTypeDataRepository } from "../Data/Repositories/IMoveTypeDataRepository";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
@@ -41,10 +43,10 @@ export const bindings = new ContainerModule(bind => {
         return getRepository(Player);
     }).inRequestScope();
 
-    bind<Repository<GameType>>(TYPES.IGameTypeRepository).toDynamicValue(() => {
-        return getRepository(GameType);
+    bind<IGameTypeDataRepository>(TYPES.IGameTypeDataRepository).toDynamicValue(() => {
+        return getRepository(DataEntities.GameType);
     }).inRequestScope();
-    bind<Repository<MoveType>>(TYPES.IMoveTypeRepository).toDynamicValue(() => {
-        return getRepository(MoveType);
+    bind<IMoveTypeDataRepository>(TYPES.IMoveTypeDataRepository).toDynamicValue(() => {
+        return getRepository(DataEntities.MoveType);
     }).inRequestScope();
 })

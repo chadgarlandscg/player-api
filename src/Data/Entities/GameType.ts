@@ -25,7 +25,7 @@ export class GameType {
     @Column()
     maxRounds: number;
 
-    @OneToMany(type => MoveType, moveType => moveType.gameType, {cascade: true})
+    @OneToMany(type => MoveType, moveType => moveType.gameType, {cascade: true, eager: true})
     moveTypes: MoveType[];
 
     @Column({
