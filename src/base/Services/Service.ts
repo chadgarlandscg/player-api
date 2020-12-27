@@ -22,7 +22,7 @@ export class Service<TAggregate extends Aggregate> implements IService<TAggregat
         return aggregate;
     }
 
-    private async save(aggregate: TAggregate): Promise<TAggregate> {
+    protected async save(aggregate: TAggregate): Promise<TAggregate> {
         const newlyRegistered = await this.repository.save(aggregate);
         return newlyRegistered;
     }
