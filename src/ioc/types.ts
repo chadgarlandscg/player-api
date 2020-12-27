@@ -8,6 +8,9 @@ const TYPES = {
     IGameMapper: Symbol("IGameMapper"),
     IGameDataRepository: Symbol("IGameDataRepository"),
     IGameRepository: Symbol("IGameRepository"),
+    // Standard Types:
+    IGameTypeRepository: Symbol("IGameTypeRepository"),
+    IMoveTypeRepository: Symbol("IMoveTypeRepository"),
 };
 
 export default TYPES;

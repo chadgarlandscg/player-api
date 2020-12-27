@@ -22,6 +22,8 @@ import { IGameMapper } from "../Domain/Mappers/IGameMapper";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { IDataRepository } from "../base/Data/IDataRepository";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
+import { GameType } from "../Domain/Models/ConcreteGameType";
+import { MoveType } from "../Data/Entities";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
@@ -37,5 +39,12 @@ export const bindings = new ContainerModule(bind => {
     bind<IPlayerRepository>(TYPES.IPlayerRepository).to(PlayerRepository);
     bind<Repository<Player>>(TYPES.IPlayerDataRepository).toDynamicValue(() => {
         return getRepository(Player);
+    }).inRequestScope();
+
+    bind<Repository<GameType>>(TYPES.IGameTypeRepository).toDynamicValue(() => {
+        return getRepository(GameType);
+    }).inRequestScope();
+    bind<Repository<MoveType>>(TYPES.IMoveTypeRepository).toDynamicValue(() => {
+        return getRepository(MoveType);
     }).inRequestScope();
 })
