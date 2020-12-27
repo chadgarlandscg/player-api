@@ -8,7 +8,7 @@ export interface IGameType {
     readonly id: number;
 }
 
-export class GameTypeModel {
+export class GameTypeModel implements IGameType {
     public readonly type?: ConcreteGameType
     constructor(public readonly name: string, public readonly id: number) {
         this.type = ConcreteGameType[name as keyof typeof ConcreteGameType];

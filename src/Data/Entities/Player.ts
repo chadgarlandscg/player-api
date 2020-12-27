@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
-import { Game } from "./Game";
+import { IDataEntity } from "../../base/Data/IDataEntity";
 
 @Entity()
-export class Player {
+export class Player implements IDataEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column()
     username: string;

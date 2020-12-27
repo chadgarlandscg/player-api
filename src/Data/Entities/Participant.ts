@@ -1,20 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
-import { Lobby } from "./Lobby";
+import { Game } from "./Game";
+import { Player } from "./Player";
 
 @Entity()
 export class Participant {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column()
     playerId: number;
+    @ManyToOne(type => Player)
+    player?: Game;
 
     @Column()
-    lobbyId: number;
+    gameId: number;
+    @ManyToOne(type => Game)
+    game?: Game;
 
     @Column()
     name: string;
-
-    @ManyToOne(type => Lobby)
-    lobby: Lobby; 
 }

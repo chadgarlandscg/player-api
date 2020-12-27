@@ -1,27 +1,33 @@
-import { ConcreteGameType, GameTypeModel, RockPaperScissorsType } from "./ConcreteGameType";
+import { ConcreteGameType } from "./ConcreteGameType";
 
 export interface IGame {
     readonly name: string;
-    readonly gameType: GameTypeModel;
+    readonly gameType: string;
+    readonly gameTypeId?: number;
     readonly id?: number;
 }
 
 export class GameModel implements IGame {
+    public readonly gameType: string;
+    public readonly gameTypeId?: number;
     constructor(
-        public readonly gameType: GameTypeModel,
         public readonly name: string,
+        options: {gameType: string, gameTypeId?: number},
         public readonly id?: number,
     ) {
+        if (options.gameType)
+            this.gameType = options.gameType;
 
+        if (options.gameTypeId)
+            this.gameTypeId = options.gameTypeId;
     }
 }
 
 export class RockPaperScissors extends GameModel {
     constructor(
-        public readonly gameTypeId: number,
         public readonly name: string,
         public readonly id?: number,
     ) {
-        super(new RockPaperScissorsType(gameTypeId), name, id)
+        super(name, {gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]}, id)
     }
 }
