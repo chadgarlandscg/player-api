@@ -39,17 +39,9 @@ export class Game extends Aggregate<GameState> implements IGame {
     }
 }
 
-export interface RockPaperScissorsState {
-    readonly id?: number;
-    readonly gameTypeId?: number;
-    readonly lobbyName: string;
-    readonly lobbyCapacity: number;
-    readonly participants: Participant[];
-}
-
 export class RockPaperScissors extends Game {
     constructor(
-        state: RockPaperScissorsState,
+        state: Omit<IGame, 'gameType'>,
     ) {
         super({...state, gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]}, {gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]})
     }

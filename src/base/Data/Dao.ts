@@ -22,7 +22,7 @@ export class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
     }
 
     async save(dataEntity: TDataEntity): Promise<TDataEntity> {
-        const saved = await this.dataRepository.save(dataEntity as any);
+        const saved = await this.dataRepository.save(dataEntity);
         return saved;
     }
 }
