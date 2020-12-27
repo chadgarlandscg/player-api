@@ -6,7 +6,7 @@ import { Participant } from "./Participant";
 @Entity()
 export class Game implements IDataEntity {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     gameTypeId: number;

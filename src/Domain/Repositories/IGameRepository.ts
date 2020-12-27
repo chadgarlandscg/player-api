@@ -3,5 +3,9 @@ import { GameType } from "../Models/ConcreteGameType";
 import { Game } from "../Models/Game";
 
 export interface IGameRepository extends IRepository<Game> {
-    createGame(name: string, gameType: GameType): Game;
+    createGame(
+        lobbyName: string,
+        lobbyCapacity: number,
+        gameType: GameType
+    ): Game;
 }

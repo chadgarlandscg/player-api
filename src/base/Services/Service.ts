@@ -1,10 +1,11 @@
 import { injectable } from "inversify";
 import { Aggregate } from "../Domain/Models/Aggregate";
 import { IRepository } from "../Domain/Repositories/IRepository";
+import { IDto } from "./IDto";
 import { IService } from "./IService";
 
 @injectable()
-export class Service<TAggregate extends Aggregate> implements IService<TAggregate> {
+export class Service<TDto extends IDto, TAggregate extends Aggregate<TDto>> implements IService<TAggregate> {
     private readonly repository: IRepository<TAggregate>;
 
     constructor(repository: IRepository<TAggregate>) {

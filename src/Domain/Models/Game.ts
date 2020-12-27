@@ -1,24 +1,36 @@
-import { Aggregate } from "../../base/Domain/Models/Aggregate";
+import { Aggregate, AggregateState } from "../../base/Domain/Models/Aggregate";
 import { IDto } from "../../base/Services/IDto";
 import { ConcreteGameType } from "./ConcreteGameType";
+import { Lobby } from "./Lobby";
+import { Participant } from "./Participant";
 
-export interface IGame extends IDto {
-    readonly name: string;
+export interface IGame extends GameState {
+}
+
+export class GameState extends AggregateState implements IDto {
+    public readonly id?: number;
+    public readonly gameType: string;
+    public readonly gameTypeId?: number;
+    public readonly lobbyName: string;
+    public readonly lobbyCapacity: number;
+    public readonly participants: Participant[] = [];
+}
+
+export class Game extends Aggregate<GameState> implements IGame {
     readonly gameType: string;
     readonly gameTypeId?: number;
     readonly id: number;
-}
+    readonly lobbyName: string;
+    readonly lobbyCapacity: number;
+    public readonly participants: Participant[];
 
-export class Game extends Aggregate implements IGame {
-    public readonly gameType: string;
-    public readonly id: number;
-    public readonly gameTypeId?: number;
+    private readonly lobby: Lobby;
     constructor(
-        public readonly name: string,
+        state: IGame,
         options: {gameType: string, gameTypeId?: number},
-        id?: number,
     ) {
-        super(id);
+        super(state);
+        this.lobby = new Lobby(state.participants, state.lobbyCapacity);
         if (options.gameType)
             this.gameType = options.gameType;
 
@@ -27,11 +39,18 @@ export class Game extends Aggregate implements IGame {
     }
 }
 
+export interface RockPaperScissorsState {
+    readonly id?: number;
+    readonly gameTypeId?: number;
+    readonly lobbyName: string;
+    readonly lobbyCapacity: number;
+    readonly participants: Participant[];
+}
+
 export class RockPaperScissors extends Game {
     constructor(
-        public readonly name: string,
-        id?: number,
+        state: RockPaperScissorsState,
     ) {
-        super(name, {gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]}, id)
+        super({...state, gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]}, {gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]})
     }
 }

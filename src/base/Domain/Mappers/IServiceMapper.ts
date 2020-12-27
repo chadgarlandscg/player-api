@@ -3,7 +3,7 @@ import { Aggregate } from "../Models/Aggregate";
 
 export interface IServiceMapper<
     TDto extends IDto,
-    TAggregate extends Aggregate,
+    TAggregate extends Aggregate<TDto>,
 > {
     toDto(aggregate: TAggregate): TDto;
 }

@@ -4,7 +4,7 @@ import { IDataEntity } from "../../base/Data/IDataEntity";
 @Entity()
 export class Player implements IDataEntity {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     username: string;

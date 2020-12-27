@@ -6,7 +6,7 @@ import { IViewMapper } from "./IViewMapper";
 
 export interface IMapper<
     TDataEntity extends IDataEntity,
-    TAggregate extends Aggregate,
+    TAggregate extends Aggregate<TDataEntity>,
     TView extends IView
 > extends IViewMapper<TView>, IRepositoryMapper<TDataEntity, TAggregate> {
     

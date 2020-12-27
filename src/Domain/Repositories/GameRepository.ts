@@ -17,12 +17,12 @@ export class GameRepository extends Repository<Game, DataEntities.Game> implemen
         super(gameDao, gameMapper);
     }
 
-    createGame(name: string, gameType: GameType): Game {
+    createGame(lobbyName: string, lobbyCapacity: number, gameType: GameType): Game {
         switch (gameType.type) {
             case ConcreteGameType.RockPaperScissors:
-                return new RockPaperScissors(name);      
+                return new RockPaperScissors({lobbyName, lobbyCapacity, participants: []});      
             default:
-                return new Game(name, {gameTypeId: gameType.id, gameType: gameType.name});
+                return new Game({lobbyName, lobbyCapacity, participants: [], gameType: gameType.name}, {gameTypeId: gameType.id, gameType: gameType.name});
         }        
     }
 }

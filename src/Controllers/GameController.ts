@@ -29,10 +29,17 @@ export class GameController extends Controller<GameView, IGame> implements inter
     }
 
     @httpPost("/")
-    async create(@requestBody() body: {name: string, gameTypeId: number, gameTypeName: string}): Promise<GameView> {
-        const {name, gameTypeId, gameTypeName} = body;
-        if (!name) throw new Error('Game name must be provided!');
-        const newGame = await this.gameService.createGame(name, new GameType(gameTypeName, gameTypeId));
+    async create(
+        @requestBody() body: {
+            lobbyName: string,
+            lobbyCapacity: number,
+            gameTypeId: number,
+            gameTypeName: string
+        }
+    ): Promise<GameView> {
+        const {lobbyName, lobbyCapacity, gameTypeId, gameTypeName} = body;
+        if (!lobbyName) throw new Error('Lobby name must be provided!');
+        const newGame = await this.gameService.createGame(lobbyName, lobbyCapacity, new GameType(gameTypeName, gameTypeId));
         return this.gameMapper.toView(newGame);
     }
 }

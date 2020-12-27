@@ -6,7 +6,7 @@ import { Aggregate } from "../Models/Aggregate";
 import { IRepository } from "./IRepository";
 
 @injectable()
-export class Repository<TAggregate extends Aggregate, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
+export class Repository<TAggregate extends Aggregate<TDataEntity>, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
     protected readonly dao: IDao<TDataEntity>;
     protected readonly mapper: IRepositoryMapper<TDataEntity, TAggregate>;
      
