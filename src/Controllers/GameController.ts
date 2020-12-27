@@ -1,11 +1,10 @@
-import { Router, Application, Response, RequestHandler, Request } from "express"
+import { Request } from "express"
 import { interfaces, controller, httpGet, httpPost, requestBody } from "inversify-express-utils"
 import { IGameService } from "../Services/IGameService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
 import { GameView } from "./GameView";
-import { GameMapper } from "../Domain/Mappers/GameMapper";
-import { GameTypeModel } from "../Domain/Models/ConcreteGameType";
+import { GameType } from "../Domain/Models/ConcreteGameType";
 import { Controller } from "../base/Controllers/Controller";
 import { IGame } from "../Domain/Models/Game";
 import { IGameMapper } from "../Domain/Mappers/IGameMapper";
@@ -33,7 +32,7 @@ export class GameController extends Controller<GameView, IGame> implements inter
     async create(@requestBody() body: {name: string, gameTypeId: number, gameTypeName: string}): Promise<GameView> {
         const {name, gameTypeId, gameTypeName} = body;
         if (!name) throw new Error('Game name must be provided!');
-        const newGame = await this.gameService.createGame(name, new GameTypeModel(gameTypeName, gameTypeId));
+        const newGame = await this.gameService.createGame(name, new GameType(gameTypeName, gameTypeId));
         return this.gameMapper.toView(newGame);
     }
 }
