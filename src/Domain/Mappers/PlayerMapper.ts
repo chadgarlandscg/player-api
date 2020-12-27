@@ -1,14 +1,14 @@
 import { PlayerView } from "../../Controllers/PlayerView";
-import { Player } from "../../Data/Entities/Player";
-import { PlayerModel } from "../Models/PlayerModel";
+import * as DataEntities from "../../Data/Entities";
+import { Player } from "../Models/Player";
 
 export class PlayerMapper {
-    static toPlayerModel(player: Player): PlayerModel {
-        const playerModel = new PlayerModel(player.username, player.code, player.id);
+    static toPlayerModel(player: DataEntities.Player): Player {
+        const playerModel = new Player(player.username, player.code, player.id);
         return playerModel;
     }
-    static toPlayerData(playerModel: PlayerModel): Player {
-        const player = new Player();
+    static toPlayerData(playerModel: Player): DataEntities.Player {
+        const player = new DataEntities.Player();
         player.username = playerModel.username;
         player.code = playerModel.code;
         if (!!playerModel.id) {
@@ -17,7 +17,7 @@ export class PlayerMapper {
 
         return player;
     }
-    static toPlayerView(playerModel: PlayerModel): PlayerView {
+    static toPlayerView(playerModel: Player): PlayerView {
         const playerView = new PlayerView();
         playerView.username = playerModel.username;
         playerView.code = playerModel.code;

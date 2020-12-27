@@ -4,7 +4,7 @@ export interface IPlayer {
     readonly id?: number;
 }
 
-export class PlayerModel implements IPlayer {
+export class Player implements IPlayer {
     constructor(
         public readonly username: string,
         public readonly code: string,

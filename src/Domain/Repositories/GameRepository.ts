@@ -2,13 +2,11 @@ import { IGameRepository } from "./IGameRepository";
 import { injectable, inject } from "inversify";
 import { IGameDao } from "../../Data/IGameDao";
 import TYPES from "../../ioc/types";
-import { Game, IGame, RockPaperScissors } from "../Models/Game";
-import { GameMapper } from "../Mappers/GameMapper";
+import { Game, RockPaperScissors } from "../Models/Game";
 import { ConcreteGameType, GameTypeModel } from "../Models/ConcreteGameType";
 import { Repository } from "../../base/Domain/Repositories/Repository";
 import * as DataEntities from "../../Data/Entities";
 import { IGameMapper } from "../Mappers/IGameMapper";
-import { gameTypes } from "../Models/StandardTypes/GameTypes";
 
 @injectable()
 export class GameRepository extends Repository<Game, DataEntities.Game> implements IGameRepository { 
