@@ -1,22 +1,22 @@
 import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
-import { Game } from "../../Data/Entities/Game";
+import * as DataEntities from "../../Data/Entities";
 import { ConcreteGameType } from "../Models/ConcreteGameType";
-import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
+import { Game, IGame, RockPaperScissors } from "../Models/Game";
 import { IGameMapper } from "./IGameMapper";
 
 @injectable()
 export class GameMapper implements IGameMapper {
-    toModel(game: Game): GameModel {
+    toModel(game: DataEntities.Game): Game {
         switch (game.type?.name) {
             case ConcreteGameType.RockPaperScissors.toString():
                 return new RockPaperScissors(game.lobbyName, game.id)   
             default:
-                return new GameModel(game.lobbyName, {gameTypeId: game.type.id, gameType: game.type.name}, game.id);
+                return new Game(game.lobbyName, {gameTypeId: game.type.id, gameType: game.type.name}, game.id);
         }
     }
-    toData(gameModel: GameModel): Game {
-        const game = new Game();
+    toData(gameModel: Game): DataEntities.Game {
+        const game = new DataEntities.Game();
         game.lobbyName = gameModel.name;
         game.gameTypeId = gameModel.gameTypeId || 0;
         if (!!gameModel.id) {

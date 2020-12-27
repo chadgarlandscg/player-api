@@ -7,7 +7,7 @@ import { GameView } from "./GameView";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { GameTypeModel } from "../Domain/Models/ConcreteGameType";
 import { Controller } from "../base/Controllers/Controller";
-import { IGame } from "../Domain/Models/GameModel";
+import { IGame } from "../Domain/Models/Game";
 import { IGameMapper } from "../Domain/Mappers/IGameMapper";
 
 @controller("/games")

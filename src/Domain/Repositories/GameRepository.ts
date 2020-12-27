@@ -2,16 +2,16 @@ import { IGameRepository } from "./IGameRepository";
 import { injectable, inject } from "inversify";
 import { IGameDao } from "../../Data/IGameDao";
 import TYPES from "../../ioc/types";
-import { GameModel, IGame, RockPaperScissors } from "../Models/GameModel";
+import { Game, IGame, RockPaperScissors } from "../Models/Game";
 import { GameMapper } from "../Mappers/GameMapper";
 import { ConcreteGameType, GameTypeModel } from "../Models/ConcreteGameType";
 import { Repository } from "../../base/Domain/Repositories/Repository";
-import { Game } from "../../Data/Entities/Game";
+import * as DataEntities from "../../Data/Entities";
 import { IGameMapper } from "../Mappers/IGameMapper";
 import { gameTypes } from "../Models/StandardTypes/GameTypes";
 
 @injectable()
-export class GameRepository extends Repository<GameModel, Game> implements IGameRepository { 
+export class GameRepository extends Repository<Game, DataEntities.Game> implements IGameRepository { 
     constructor(
         @inject(TYPES.IGameDao) private readonly gameDao: IGameDao,
         @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper
@@ -19,12 +19,12 @@ export class GameRepository extends Repository<GameModel, Game> implements IGame
         super(gameDao, gameMapper);
     }
 
-    createGame(name: string, gameType: GameTypeModel): GameModel {
+    createGame(name: string, gameType: GameTypeModel): Game {
         switch (gameType.type) {
             case ConcreteGameType.RockPaperScissors:
                 return new RockPaperScissors(name);      
             default:
-                return new GameModel(name, {gameTypeId: gameType.id, gameType: gameType.name});
+                return new Game(name, {gameTypeId: gameType.id, gameType: gameType.name});
         }        
     }
 }

@@ -1,10 +1,10 @@
 import { IView } from "../../Controllers/IView";
 import { IDataEntity } from "../../Data/IDataEntity";
-import { IAggregate } from "../Models/IAggregate";
+import { Aggregate } from "../Models/Aggregate";
 
 export interface IRepositoryMapper<
     TDataEntity extends IDataEntity,
-    TAggregate extends IAggregate,
+    TAggregate extends Aggregate,
 > {
     toData(aggregate: TAggregate): TDataEntity;
     toModel(dataEntity: TDataEntity): TAggregate;

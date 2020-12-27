@@ -1,13 +1,15 @@
+import { Aggregate } from "../../base/Domain/Models/Aggregate";
+import { IDto } from "../../base/Services/IDto";
 import { ConcreteGameType } from "./ConcreteGameType";
 
-export interface IGame {
+export interface IGame extends IDto {
     readonly name: string;
     readonly gameType: string;
     readonly gameTypeId?: number;
     readonly id?: number;
 }
 
-export class GameModel implements IGame {
+export class Game extends Aggregate implements IGame {
     public readonly gameType: string;
     public readonly gameTypeId?: number;
     constructor(
@@ -15,6 +17,7 @@ export class GameModel implements IGame {
         options: {gameType: string, gameTypeId?: number},
         public readonly id?: number,
     ) {
+        super();
         if (options.gameType)
             this.gameType = options.gameType;
 
@@ -23,7 +26,7 @@ export class GameModel implements IGame {
     }
 }
 
-export class RockPaperScissors extends GameModel {
+export class RockPaperScissors extends Game {
     constructor(
         public readonly name: string,
         public readonly id?: number,

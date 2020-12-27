@@ -1,6 +1,6 @@
-import { IAggregate } from "../Models/IAggregate";
+import { Aggregate } from "../Models/Aggregate";
 
-export interface IRepository<TAggregate extends IAggregate> {
+export interface IRepository<TAggregate extends Aggregate> {
     get(id: number): Promise<TAggregate>;
     search(): Promise<TAggregate[]>;
     save(aggregate: TAggregate): Promise<TAggregate>;
