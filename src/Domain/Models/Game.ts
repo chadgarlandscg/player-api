@@ -6,18 +6,19 @@ export interface IGame extends IDto {
     readonly name: string;
     readonly gameType: string;
     readonly gameTypeId?: number;
-    readonly id?: number;
+    readonly id: number;
 }
 
 export class Game extends Aggregate implements IGame {
     public readonly gameType: string;
+    public readonly id: number;
     public readonly gameTypeId?: number;
     constructor(
         public readonly name: string,
         options: {gameType: string, gameTypeId?: number},
-        public readonly id?: number,
+        id?: number,
     ) {
-        super();
+        super(id);
         if (options.gameType)
             this.gameType = options.gameType;
 
@@ -29,7 +30,7 @@ export class Game extends Aggregate implements IGame {
 export class RockPaperScissors extends Game {
     constructor(
         public readonly name: string,
-        public readonly id?: number,
+        id?: number,
     ) {
         super(name, {gameType: ConcreteGameType[ConcreteGameType.RockPaperScissors]}, id)
     }

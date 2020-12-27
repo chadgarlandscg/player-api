@@ -1,12 +1,13 @@
+import { ValueObject } from "../../base/Domain/Models/ValueObject";
 import { Participant } from "./Participant";
 import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
 
-class Lobby {
+class Lobby extends ValueObject {
     constructor(
         public readonly participants: Participant[],
         private readonly capacity: number,
     ) {
-
+        super();
     }
 
     full() {
