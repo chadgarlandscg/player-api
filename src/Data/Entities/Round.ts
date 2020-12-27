@@ -9,7 +9,7 @@ export class Round {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @Column()
+    @Column({nullable: true})
     tieRoundId?: number;
     @OneToOne(type => Round)
     tieRound?: Round;

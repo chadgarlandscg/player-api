@@ -1,5 +1,6 @@
 export enum ConcreteGameType {
-    RockPaperScissors
+    RockPaperScissors,
+    ApiWars
 }
 
 export interface IGameType {

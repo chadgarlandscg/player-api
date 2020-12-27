@@ -1,6 +1,7 @@
 import { GameType } from "../../../Data/Entities/GameType";
 import { ConcreteGameType } from "../ConcreteGameType";
 import { ConcreteMoveType } from "../ConcreteMoveType";
+import { GameTypeStatus } from "./GameTypeStatus";
 
 export const gameTypes: GameType[] = [{
     displayName: "Rock, Paper, Scissors",
@@ -18,5 +19,15 @@ export const gameTypes: GameType[] = [{
     },{
         displayName: ConcreteMoveType[ConcreteMoveType.Scissors],
         name: ConcreteMoveType[ConcreteMoveType.Scissors]
-    }]
+    }],
+    status: GameTypeStatus.Active
+},{
+    displayName: "API Wars",
+    name: ConcreteGameType[ConcreteGameType.ApiWars],
+    minPlayers: 3,
+    maxPlayers: 10,
+    minRounds: 1,
+    maxRounds: 1,
+    moveTypes: [],
+    status: GameTypeStatus.ComingSoon
 }];

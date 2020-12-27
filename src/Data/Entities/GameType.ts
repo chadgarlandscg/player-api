@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { GameTypeStatus } from "../../Domain/Models/StandardTypes/GameTypeStatus";
 import { MoveType } from "./MoveType";
 
 @Entity()
@@ -26,4 +27,11 @@ export class GameType {
 
     @OneToMany(type => MoveType, moveType => moveType.gameType, {cascade: true})
     moveTypes: MoveType[];
+
+    @Column({
+        type: "enum",
+        enum: GameTypeStatus,
+        default: GameTypeStatus.ComingSoon
+    })
+    status: GameTypeStatus
 }
