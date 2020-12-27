@@ -2,16 +2,10 @@ import "reflect-metadata" // gives us decorators for the di container
 import * as typeorm from "typeorm";
 import express, { Response } from "express";
 import cors from "cors";
-import { Game } from "./Data/Entities/Game";
-import { Player } from "./Data/Entities/Player";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { bindings } from "./ioc/inversify.config";
 import { Container } from "inversify";
-import { GameType } from "./Data/Entities/GameType";
-import { Round } from "./Data/Entities/Round";
-import { Move } from "./Data/Entities/Move";
-import { MoveType } from "./Data/Entities/MoveType";
-import { Participant } from "./Data/Entities/Participant";
+import * as Entities from "./Data/Entities";
 import { gameTypes } from "./Domain/Models/StandardTypes/GameTypes";
 
 async function runApp() {
@@ -23,10 +17,10 @@ async function runApp() {
         password: "psql",
         database: "api_games",
         synchronize: true,
-        entities: [Game, GameType, Player, Round, Move, MoveType, Participant]
+        entities: Object.values(Entities)
     });
 
-    const gameTypeRepo = await typeorm.getRepository(GameType);
+    const gameTypeRepo = await typeorm.getRepository(Entities.GameType);
     const alreadyInitialized = !!await gameTypeRepo.count();
     if (!alreadyInitialized) await gameTypeRepo.save(gameTypes);
 
