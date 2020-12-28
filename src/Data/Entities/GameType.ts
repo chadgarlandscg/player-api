@@ -14,6 +14,9 @@ export class GameType {
     displayName: string;
 
     @Column()
+    description: string;
+
+    @Column()
     minPlayers: number;
 
     @Column()

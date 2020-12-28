@@ -4,6 +4,7 @@ import { MoveTypeView } from "./MoveTypeView";
 export class GameTypeView {
     id?: number;
     name: string;
+    description: string;
     displayName: string;
     minPlayers: number;
     maxPlayers: number;

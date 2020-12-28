@@ -5,6 +5,7 @@ import { GameTypeStatus } from "./GameTypeStatus";
 
 export const gameTypes: GameType[] = [{
     displayName: "Rock, Paper, Scissors",
+    description: "The classic game where hard beats pointy, pointy beats flimsy, and flimsy beats hard. May the lucky survive!",
     name: ConcreteGameType[ConcreteGameType.RockPaperScissors],
     minPlayers: 2,
     maxPlayers: 6,
@@ -23,6 +24,7 @@ export const gameTypes: GameType[] = [{
     status: GameTypeStatus.Active
 },{
     displayName: "API Wars",
+    description: "Duel your friends and foes, one request at a time! Spend coins, wield weapons, and drink potions to win!",
     name: ConcreteGameType[ConcreteGameType.ApiWars],
     minPlayers: 3,
     maxPlayers: 10,
