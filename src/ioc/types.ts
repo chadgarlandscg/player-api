@@ -9,6 +9,7 @@ const TYPES = {
     IGameDataRepository: Symbol("IGameDataRepository"),
     IGameRepository: Symbol("IGameRepository"),
     // Standard Types:
+    IGameTypeDao: Symbol("IGameTypeDao"),
     IGameTypeDataRepository: Symbol("IGameTypeDataRepository"),
     IMoveTypeDataRepository: Symbol("IMoveTypeDataRepository"),
 };

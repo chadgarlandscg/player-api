@@ -26,6 +26,8 @@ import { IGameDataRepository } from "../Data/IGameDataRepository";
 import * as DataEntities from "../Data/Entities";
 import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
 import { IMoveTypeDataRepository } from "../Data/Repositories/IMoveTypeDataRepository";
+import { GameTypeDao } from "../Data/GameTypeDao";
+import { IGameTypeDao } from "../Data/IGameTypeDao";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
@@ -43,6 +45,7 @@ export const bindings = new ContainerModule(bind => {
         return getRepository(Player);
     }).inRequestScope();
 
+    bind<IGameTypeDao>(TYPES.IGameTypeDao).to(GameTypeDao);
     bind<IGameTypeDataRepository>(TYPES.IGameTypeDataRepository).toDynamicValue(() => {
         return getRepository(DataEntities.GameType);
     }).inRequestScope();

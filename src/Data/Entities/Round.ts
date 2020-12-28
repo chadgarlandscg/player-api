@@ -1,13 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToOne, OneToMany } from "typeorm";
-import { GameType } from "./GameType";
+import { Game } from "./Game";
 import { Move } from "./Move";
-import { Participant } from "./Participant";
-import { Player } from "./Player";
 
 @Entity()
 export class Round {
     @PrimaryGeneratedColumn()
     id?: number;
+
+    @Column()
+    gameId: number;
+    @ManyToOne(type => Game, game => game.rounds)
+    game: Game;
 
     @Column({nullable: true})
     tieRoundId?: number;

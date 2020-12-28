@@ -5,7 +5,7 @@ import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
 
 export class Lobby extends ValueObject {
     constructor(
-        public readonly participants: Participant[],
+        public readonly participants: Participant[] = [],
         private readonly capacity: number,
     ) {
         super();

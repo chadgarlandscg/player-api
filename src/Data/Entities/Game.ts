@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToOne
 import { IDataEntity } from "../../base/Data/IDataEntity";
 import { GameType } from "./GameType";
 import { Participant } from "./Participant";
+import { Round } from "./Round";
 
 @Entity()
 export class Game implements IDataEntity {
@@ -9,7 +10,7 @@ export class Game implements IDataEntity {
     id: number;
 
     @Column()
-    gameTypeId: number;
+    gameTypeId?: number;
     @ManyToOne(type => GameType)
     type: GameType;
 
@@ -20,6 +21,9 @@ export class Game implements IDataEntity {
 
     @Column()
     bestOutOf: number;
+    
+    @OneToMany(type => Round, round => round.game)
+    rounds?: Round[];
 
     @OneToMany(type => Participant, participant => participant.game)
     participants: Participant[];

@@ -1,7 +1,7 @@
-import { Entity } from './Entity';
+import { Entity, Identifiable } from './Entity';
 
-export class AggregateState {
-    id?: number;
+export class AggregateState implements Identifiable {
+    public readonly id?: number;
 }
 
 export class Aggregate<TState extends AggregateState> extends Entity {

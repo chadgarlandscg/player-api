@@ -37,9 +37,9 @@ export class GameController extends Controller<GameView, IGame> implements inter
             gameTypeName: string
         }
     ): Promise<GameView> {
-        const {lobbyName, lobbyCapacity, gameTypeId, gameTypeName} = body;
+        const {lobbyName, lobbyCapacity, gameTypeId} = body;
         if (!lobbyName) throw new Error('Lobby name must be provided!');
-        const newGame = await this.gameService.createGame(lobbyName, lobbyCapacity, new GameType(gameTypeName, gameTypeId));
+        const newGame = await this.gameService.createGame(lobbyName, lobbyCapacity, gameTypeId);
         return this.gameMapper.toView(newGame);
     }
 }

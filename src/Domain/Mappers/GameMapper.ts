@@ -1,8 +1,10 @@
 import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
 import * as DataEntities from "../../Data/Entities";
+import { DomainError } from "../Errors/DomainError";
 import { ConcreteGameType } from "../Models/ConcreteGameType";
-import { Game, IGame, RockPaperScissors } from "../Models/Game";
+import { Game, IGame } from "../Models/Game";
+import { RockPaperScissors } from "../Models/RockPaperScissors/RockPaperScissors";
 import { gameTypes } from "../Models/StandardTypes/GameTypes";
 import { IGameMapper } from "./IGameMapper";
 
@@ -11,15 +13,15 @@ export class GameMapper implements IGameMapper {
     toModel(game: DataEntities.Game): Game {
         switch (game.type?.name) {
             case ConcreteGameType.RockPaperScissors.toString():
-                return new RockPaperScissors({...game})   
+                return new RockPaperScissors({...game, type: game.type})   
             default:
-                return new Game({...game, gameType: game.type.name}, {gameTypeId: game.type.id, gameType: game.type.name});
+                throw new DomainError("Game type not supported!");
         }
     }
     toData(gameModel: Game): DataEntities.Game {
         const game = new DataEntities.Game();
         game.lobbyName = gameModel.lobbyName;
-        game.gameTypeId = gameModel.gameTypeId || 0;
+        game.gameTypeId = gameModel.type.id;
         if (!!gameModel.id) {
             game.id = gameModel.id;
         }
@@ -29,7 +31,7 @@ export class GameMapper implements IGameMapper {
     toView(gameModel: IGame): GameView {
         const gameView = new GameView();
         gameView.name = gameModel.lobbyName;
-        gameView.gameType = gameModel.gameType;
+        gameView.gameType = gameModel.type.name;
         if (!!gameModel.id) {
             gameView.id = gameModel.id;
         }
