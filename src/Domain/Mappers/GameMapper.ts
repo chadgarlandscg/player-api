@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
-import * as DataEntities from "../../Data/Entities";
-import { GameTypeData } from "../../Data/Entities";
+import { GameData, GameTypeData, ParticipantData } from "../../Data/Entities";
 import { Game, GameState, IGame } from "../Models/Game";
 import { Participant } from "../Models/Participant";
 import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "./IGameMapper";
@@ -15,10 +14,10 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         this.toDto = this.toDto.bind(this);
         this.toParticipantModels = this.toParticipantModels.bind(this);
         this.toParticipantModel = this.toParticipantModel.bind(this);
-        this.toParticipantDataEntities = this.toParticipantDataEntities.bind(this);
-        this.toParticipantDataEntity = this.toParticipantDataEntity.bind(this);
+        this.toParticipantDataModels = this.toParticipantDataModels.bind(this);
+        this.toParticipantDataModel = this.toParticipantDataModel.bind(this);
     }
-    toModel(gameData: DataEntities.Game, originalAggregate: Game): Game {
+    toModel(gameData: GameData, originalAggregate: Game): Game {
         const gameState = new GameState(gameData.id);
         gameState.lobbyName = gameData.lobbyName;
         gameState.lobbyThreshold = gameData.lobbyThreshold;
@@ -30,10 +29,10 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
 
         return new Game(gameState);
     }
-    private toParticipantModels(participants: DataEntities.Participant[]): Participant[] {
+    private toParticipantModels(participants: ParticipantData[]): Participant[] {
         return participants.map(this.toParticipantModel);
     }
-    private toParticipantModel(participantData: DataEntities.Participant): Participant {
+    private toParticipantModel(participantData: ParticipantData): Participant {
         return new Participant(
             participantData.name, 
             participantData.playerId, 
@@ -41,24 +40,24 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
             participantData.id
         );
     }
-    toData(game: Game): DataEntities.Game {
-        const gameData = new DataEntities.Game();
+    toData(game: Game): GameData {
+        const gameData = new GameData();
         gameData.lobbyName = game.lobbyName;
         gameData.lobbyThreshold = game.lobbyThreshold;
         gameData.lobbyCapacity = game.lobbyCapacity;
         gameData.bestOf = game.bestOf;
-        gameData.participants = game.participants && this.toParticipantDataEntities(game);
+        gameData.participants = game.participants && this.toParticipantDataModels(game);
 
         gameData.gameTypeId = game.type.id;
         gameData.id = game.id;
 
         return gameData;
     }
-    private toParticipantDataEntities({participants, id}: Game): DataEntities.Participant[] {
-        return participants.map(p => this.toParticipantDataEntity(p, id));
+    private toParticipantDataModels({participants, id}: Game): ParticipantData[] {
+        return participants.map(p => this.toParticipantDataModel(p, id));
     }
-    private toParticipantDataEntity(participant: Participant, gameId: number): DataEntities.Participant {
-        const participantData = new DataEntities.Participant();
+    private toParticipantDataModel(participant: Participant, gameId: number): ParticipantData {
+        const participantData = new ParticipantData();
         
         participantData.gameId = gameId;
         participantData.name = participant.name;

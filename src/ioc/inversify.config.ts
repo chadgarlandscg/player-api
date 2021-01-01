@@ -11,7 +11,6 @@ import { IGameDao } from "../Data/IGameDao";
 import { GameService } from "../Application/Services/GameService";
 import { GameDao } from "../Data/GameDao";
 import { Game } from "../Data/Entities/Game";
-
 import "../Controllers/GameTypeController" // auto-binding courtesy of the utils
 import "../Controllers/PlayerController" // auto-binding courtesy of the utils
 import "../Controllers/GameController" // auto-binding courtesy of the utils
@@ -22,8 +21,7 @@ import { PlayerRepository } from "../Domain/Repositories/PlayerRepository";
 import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "../Domain/Mappers/IGameMapper";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
-import * as DataEntities from "../Data/Entities";
-import { GameTypeData } from "../Data/Entities";
+import { GameTypeData, MoveTypeData } from "../Data/Entities";
 import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
 import { IMoveTypeDataRepository } from "../Data/Repositories/IMoveTypeDataRepository";
 import { GameTypeDao } from "../Data/GameTypeDao";
@@ -56,6 +54,6 @@ export const bindings = new ContainerModule(bind => {
         return getRepository(GameTypeData);
     }).inRequestScope();
     bind<IMoveTypeDataRepository>(TYPES.IMoveTypeDataRepository).toDynamicValue(() => {
-        return getRepository(DataEntities.MoveType);
+        return getRepository(MoveTypeData);
     }).inRequestScope();
 })

@@ -1,14 +1,14 @@
 import { PlayerView } from "../../Controllers/PlayerView";
-import * as DataEntities from "../../Data/Entities";
+import { PlayerData } from "../../Data/Entities";
 import { Player } from "../Models/Player";
 
 export class PlayerMapper {
-    static toPlayerModel(player: DataEntities.Player): Player {
+    static toPlayerModel(player: PlayerData): Player {
         const playerModel = new Player(player.username, player.code, player.id);
         return playerModel;
     }
-    static toPlayerData(playerModel: Player): DataEntities.Player {
-        const player = new DataEntities.Player();
+    static toPlayerData(playerModel: Player): PlayerData {
+        const player = new PlayerData();
         player.username = playerModel.username;
         player.code = playerModel.code;
         if (!!playerModel.id) {

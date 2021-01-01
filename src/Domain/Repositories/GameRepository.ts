@@ -5,13 +5,13 @@ import TYPES from "../../ioc/types";
 import { Game } from "../Models/Game";
 import { GameType } from "../Models/ConcreteGameType";
 import { Repository } from "../../base/Domain/Repositories/Repository";
-import * as DataEntities from "../../Data/Entities";
 import { IGameRepositoryMapper } from "../Mappers/IGameMapper";
 import { IGameTypeDao } from "../../Data/IGameTypeDao";
 import { DomainError } from "../Errors/DomainError";
+import { GameData } from "../../Data/Entities";
 
 @injectable()
-export class GameRepository extends Repository<Game, DataEntities.Game> implements IGameRepository { 
+export class GameRepository extends Repository<Game, GameData> implements IGameRepository { 
     @inject(TYPES.IGameTypeDao)
     private readonly gameTypeDao: IGameTypeDao;
 

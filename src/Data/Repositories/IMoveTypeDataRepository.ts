@@ -1,6 +1,6 @@
 import { IDataRepository } from "../../base/Data/IDataRepository";
-import { MoveType } from "../Entities";
+import { MoveTypeData } from "../Entities";
 
-export interface IMoveTypeDataRepository extends IDataRepository<MoveType> {
+export interface IMoveTypeDataRepository extends IDataRepository<MoveTypeData> {
 
 }
