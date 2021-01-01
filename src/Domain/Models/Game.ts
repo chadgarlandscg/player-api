@@ -22,8 +22,8 @@ export class GameState extends AggregateState implements IGame {
     public participants: Participant[];
     public bestOf: number;
     public status: GameStatus;
-    constructor(participants: Participant[] = []) {
-        super();
+    constructor(id?: number, participants: Participant[] = []) {
+        super(id);
         this.participants = participants;
     }
 }

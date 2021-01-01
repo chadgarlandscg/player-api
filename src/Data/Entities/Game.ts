@@ -30,9 +30,9 @@ export class Game implements IDataEntity {
     })
     status: GameStatus;
     
-    @OneToMany(type => Round, round => round.game, {cascade: true})
+    @OneToMany(type => Round, round => round.game, {cascade: true, eager: true})
     rounds?: Round[];
 
-    @OneToMany(type => Participant, participant => participant.game, {cascade: true})
+    @OneToMany(type => Participant, participant => participant.game, {cascade: true, eager: true})
     participants: Participant[];
 }

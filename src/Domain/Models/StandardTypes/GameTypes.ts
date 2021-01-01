@@ -4,6 +4,18 @@ import { ConcreteGameType } from "../ConcreteGameType";
 import { ConcreteMoveType } from "../ConcreteMoveType";
 import { GameTypeStatus } from "./GameTypeStatus";
 
+const rock = new MoveType();
+rock.displayName = ConcreteMoveType[ConcreteMoveType.Rock];
+rock.name = ConcreteMoveType[ConcreteMoveType.Rock];
+
+const paper = new MoveType();
+paper.displayName = ConcreteMoveType[ConcreteMoveType.Paper];
+paper.name = ConcreteMoveType[ConcreteMoveType.Paper];
+
+const scissors = new MoveType();
+scissors.displayName = ConcreteMoveType[ConcreteMoveType.Scissors];
+scissors.name = ConcreteMoveType[ConcreteMoveType.Scissors];
+
 const rockPaperScissors = new GameType();
 rockPaperScissors.displayName = "Rock, Paper, Scissors";
 rockPaperScissors.description = "The classic game where hard beats pointy, pointy beats flimsy, and flimsy beats hard. May the lucky survive!";
@@ -12,15 +24,7 @@ rockPaperScissors.minPlayers = 2;
 rockPaperScissors.maxPlayers = 6;
 rockPaperScissors.minRounds = 1;
 rockPaperScissors.maxRounds = 7;
-const rock = new MoveType();
-rock.displayName = ConcreteMoveType[ConcreteMoveType.Rock];
-rock.name = ConcreteMoveType[ConcreteMoveType.Rock];
-const paper = new MoveType();
-paper.displayName = ConcreteMoveType[ConcreteMoveType.Paper];
-paper.name = ConcreteMoveType[ConcreteMoveType.Paper];
-const scissors = new MoveType();
-scissors.displayName = ConcreteMoveType[ConcreteMoveType.Scissors];
-scissors.name = ConcreteMoveType[ConcreteMoveType.Scissors];
+rockPaperScissors.status = GameTypeStatus.Active;
 rockPaperScissors.moveTypes = [rock, paper, scissors];
 
 const apiWars = new GameType();
