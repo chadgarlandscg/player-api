@@ -8,6 +8,7 @@ import { GameTypeView } from "../../Controllers/GameTypeView";
 import { IGameLobbyService } from "../../Domain/Services/GameLobbyService";
 import { ParticipantStatus } from "../../Domain/Models/StandardTypes/ParticipantStatus";
 import { IGameServiceMapper } from "../../Domain/Mappers/IGameMapper";
+import { Participant } from "../../Domain/Models/Participant";
 
 @injectable()
 export class GameService extends Service<IGame, Game> implements IGameService {
@@ -33,7 +34,8 @@ export class GameService extends Service<IGame, Game> implements IGameService {
     async joinGame(gameId: number, playerId: number, playerName: string): Promise<IGame> {
         const game = await this.gameRepository.get(gameId);
 
-        game.addParticipant({playerId, name: playerName, status: ParticipantStatus.Joined});
+        const participant = new Participant(playerName, playerId);
+        game.addParticipant(participant);
 
         const savedGame = await this.gameRepository.save(game);
 

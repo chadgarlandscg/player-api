@@ -7,15 +7,15 @@ import { Round } from "./Round";
 @Entity()
 export class Move {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     roundId: number;
     @ManyToOne(type => Round)
-    round?: Round;
+    round: Round;
 
     @Column()
     gameTypeId: number;
     @ManyToOne(type => GameType)
-    gameType?: GameType;
+    gameType: GameType;
 }

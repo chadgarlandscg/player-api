@@ -5,7 +5,7 @@ import { Move } from "./Move";
 @Entity()
 export class Round {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     gameId: number;

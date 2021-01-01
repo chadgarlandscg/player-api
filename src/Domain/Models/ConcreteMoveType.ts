@@ -5,7 +5,7 @@ export enum ConcreteMoveType {
 }
 
 export class MoveType {
-    public readonly id?: number;
+    public readonly id: number;
     public readonly name: string;
     public readonly type?: ConcreteMoveType;
     public readonly displayName: string;

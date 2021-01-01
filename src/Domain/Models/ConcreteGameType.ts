@@ -8,7 +8,7 @@ export enum ConcreteGameType {
 
 export class IGameType {
     readonly name: string;
-    readonly id?: number;
+    readonly id: number;
     readonly displayName: string;
     readonly description: string;
     readonly minPlayers: number;
@@ -35,7 +35,7 @@ export class GameType implements IGameType {
         this.moveTypes = gameTypeState.moveTypes;
         this.status = gameTypeState.status;
     }
-    readonly type?: ConcreteGameType;
+    readonly type: ConcreteGameType;
     readonly name: string;
     readonly id: number;
     readonly displayName: string;

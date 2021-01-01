@@ -1,35 +1,37 @@
 import { GameType } from "../../../Data/Entities/GameType";
+import { MoveType } from "../../../Data/Entities/MoveType";
 import { ConcreteGameType } from "../ConcreteGameType";
 import { ConcreteMoveType } from "../ConcreteMoveType";
 import { GameTypeStatus } from "./GameTypeStatus";
 
-export const gameTypes: GameType[] = [{
-    displayName: "Rock, Paper, Scissors",
-    description: "The classic game where hard beats pointy, pointy beats flimsy, and flimsy beats hard. May the lucky survive!",
-    name: ConcreteGameType[ConcreteGameType.RockPaperScissors],
-    minPlayers: 2,
-    maxPlayers: 6,
-    minRounds: 1,
-    maxRounds: 7,
-    moveTypes: [{
-        displayName: ConcreteMoveType[ConcreteMoveType.Rock],
-        name: ConcreteMoveType[ConcreteMoveType.Rock]
-    },{
-        displayName: ConcreteMoveType[ConcreteMoveType.Paper],
-        name: ConcreteMoveType[ConcreteMoveType.Paper]
-    },{
-        displayName: ConcreteMoveType[ConcreteMoveType.Scissors],
-        name: ConcreteMoveType[ConcreteMoveType.Scissors]
-    }],
-    status: GameTypeStatus.Active
-},{
-    displayName: "API Wars",
-    description: "Duel your friends and foes, one request at a time! Spend coins, wield weapons, and drink potions to win!",
-    name: ConcreteGameType[ConcreteGameType.ApiWars],
-    minPlayers: 3,
-    maxPlayers: 10,
-    minRounds: 1,
-    maxRounds: 1,
-    moveTypes: [],
-    status: GameTypeStatus.ComingSoon
-}];
+const rockPaperScissors = new GameType();
+rockPaperScissors.displayName = "Rock, Paper, Scissors";
+rockPaperScissors.description = "The classic game where hard beats pointy, pointy beats flimsy, and flimsy beats hard. May the lucky survive!";
+rockPaperScissors.name = ConcreteGameType[ConcreteGameType.RockPaperScissors];
+rockPaperScissors.minPlayers = 2;
+rockPaperScissors.maxPlayers = 6;
+rockPaperScissors.minRounds = 1;
+rockPaperScissors.maxRounds = 7;
+const rock = new MoveType();
+rock.displayName = ConcreteMoveType[ConcreteMoveType.Rock];
+rock.name = ConcreteMoveType[ConcreteMoveType.Rock];
+const paper = new MoveType();
+paper.displayName = ConcreteMoveType[ConcreteMoveType.Paper];
+paper.name = ConcreteMoveType[ConcreteMoveType.Paper];
+const scissors = new MoveType();
+scissors.displayName = ConcreteMoveType[ConcreteMoveType.Scissors];
+scissors.name = ConcreteMoveType[ConcreteMoveType.Scissors];
+rockPaperScissors.moveTypes = [rock, paper, scissors];
+
+const apiWars = new GameType();
+apiWars.displayName = "API Wars";
+apiWars.description = "Duel your friends and foes, one request at a time! Spend coins, wield weapons, and drink potions to win!";
+apiWars.name = ConcreteGameType[ConcreteGameType.ApiWars];
+apiWars.minPlayers = 3;
+apiWars.maxPlayers = 10;
+apiWars.minRounds = 1;
+apiWars.maxRounds = 1;
+apiWars.moveTypes = [];
+apiWars.status = GameTypeStatus.ComingSoon;
+
+export const gameTypes: GameType[] = [rockPaperScissors, apiWars];

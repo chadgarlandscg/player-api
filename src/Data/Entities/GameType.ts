@@ -5,7 +5,7 @@ import { MoveType } from "./MoveType";
 @Entity()
 export class GameType {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
     name: string;

@@ -27,11 +27,10 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
     private toParticipants({participants, id}: Game): DataEntities.Participant[] {
         return participants.map(p => this.toParticipant(p, id));
     }
-    private toParticipant(participant: Participant, gameId?: number): DataEntities.Participant {
+    private toParticipant(participant: Participant, gameId: number): DataEntities.Participant {
         const participantData = new DataEntities.Participant();
-        if (gameId) {
-            participantData.gameId = gameId;
-        }
+        
+        participantData.gameId = gameId;
         participantData.name = participant.name;
         participantData.playerId = participant.playerId;
         participantData.id = participant.id;

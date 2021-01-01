@@ -4,7 +4,7 @@ export class GameView {
     id: number;
 
     gameType: string;
-    gameTypeId?: number;
+    gameTypeId: number;
 
     lobbyName: string;
     lobbyCapacity: number;

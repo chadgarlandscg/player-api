@@ -1,5 +1,5 @@
 export class MoveTypeView {
-    id?: number;
+    id: number;
     name: string;
     displayName: string;
 }

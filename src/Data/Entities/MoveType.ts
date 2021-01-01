@@ -6,12 +6,12 @@ import { Player } from "./Player";
 @Entity()
 export class MoveType {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
-    gameTypeId?: number;
+    gameTypeId: number;
     @ManyToOne(type => GameType)
-    gameType?: GameType;
+    gameType: GameType;
 
     @Column()
     name: string;
