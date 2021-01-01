@@ -1,6 +1,6 @@
 import { Router, Application, Response, RequestHandler, Request } from "express"
 import { interfaces, controller, httpGet, httpPost } from "inversify-express-utils"
-import { IPlayerService } from "../Services/IPlayerService";
+import { IPlayerService } from "../Application/Services/IPlayerService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
 import { PlayerView } from "./PlayerView";

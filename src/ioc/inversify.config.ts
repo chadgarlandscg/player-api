@@ -1,14 +1,14 @@
 import { ContainerModule } from "inversify";
 import TYPES from "./types";
-import { PlayerService } from "../Services/PlayerService";
+import { PlayerService } from "../Application/Services/PlayerService";
 import { PlayerDao } from "../Data/PlayerDao";
-import { IPlayerService } from "../Services/IPlayerService";
+import { IPlayerService } from "../Application/Services/IPlayerService";
 import { IPlayerDao } from "../Data/IPlayerDao";
 import { Player } from "../Data/Entities/Player";
 import { Repository, getRepository } from "typeorm";
-import { IGameService } from "../Services/IGameService";
+import { IGameService } from "../Application/Services/IGameService";
 import { IGameDao } from "../Data/IGameDao";
-import { GameService } from "../Services/GameService";
+import { GameService } from "../Application/Services/GameService";
 import { GameDao } from "../Data/GameDao";
 import { Game } from "../Data/Entities/Game";
 

@@ -1,6 +1,6 @@
 import { Request } from "express"
 import { interfaces, controller, httpGet, httpPost, requestBody } from "inversify-express-utils"
-import { IGameService } from "../Services/IGameService";
+import { IGameService } from "../Application/Services/IGameService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
 import { GameView } from "./GameView";

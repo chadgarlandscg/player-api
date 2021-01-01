@@ -1,10 +1,10 @@
 import { IGameService } from "./IGameService";
 import { injectable, inject } from "inversify";
-import TYPES from "../ioc/types";
-import { IGameRepository } from "../Domain/Repositories/IGameRepository";
-import { Game, IGame } from "../Domain/Models/Game";
-import { Service } from "../base/Services/Service";
-import { GameTypeView } from "../Controllers/GameTypeView";
+import TYPES from "../../ioc/types";
+import { IGameRepository } from "../../Domain/Repositories/IGameRepository";
+import { Game, IGame } from "../../Domain/Models/Game";
+import { Service } from "../../base/Services/Service";
+import { GameTypeView } from "../../Controllers/GameTypeView";
 
 @injectable()
 export class GameService extends Service<IGame, Game> implements IGameService {

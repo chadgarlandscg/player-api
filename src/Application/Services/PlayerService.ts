@@ -1,9 +1,9 @@
-import { PlayerDao } from "../Data/PlayerDao";
-import { Player } from "../Data/Entities/Player";
+import { PlayerDao } from "../../Data/PlayerDao";
+import { Player } from "../../Data/Entities/Player";
 import { IPlayerService } from "./IPlayerService";
-import { IPlayerDao } from "../Data/IPlayerDao";
+import { IPlayerDao } from "../../Data/IPlayerDao";
 import { injectable, inject } from "inversify";
-import TYPES from "../ioc/types";
+import TYPES from "../../ioc/types";
 
 @injectable()
 export class PlayerService implements IPlayerService {
