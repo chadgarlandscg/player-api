@@ -1,5 +1,3 @@
-import { DeepPartial } from "typeorm";
-import { IView } from "../../Controllers/IView";
 import { IDataEntity } from "../../Data/IDataEntity";
 import { Aggregate } from "../Models/Aggregate";
 

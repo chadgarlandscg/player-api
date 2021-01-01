@@ -1,5 +1,4 @@
 import { injectable } from "inversify";
-import { DeepPartial } from "typeorm";
 import { IDao } from "../../Data/IDao";
 import { IDataEntity } from "../../Data/IDataEntity";
 import { IRepositoryMapper } from "../Mappers/IRepositoryMapper";
