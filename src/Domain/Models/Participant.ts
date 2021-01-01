@@ -24,4 +24,8 @@ export class Participant {
     isReady(): boolean {
         return this.status === ParticipantStatus.Ready;
     }
+
+    isPresent(): boolean {
+        return this.hasJoined() || this.isReady();
+    }
 }

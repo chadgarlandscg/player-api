@@ -10,6 +10,7 @@ export interface IGame extends IDto {
     readonly type: IGameType;
     readonly lobbyName: string;
     readonly lobbyCapacity: number;
+    readonly lobbyThreshold: number;
     readonly participants: Participant[];
     readonly bestOf: number;
     readonly status: GameStatus;
@@ -19,12 +20,27 @@ export class GameState extends AggregateState implements IGame {
     public type: IGameType;
     public lobbyName: string;
     public lobbyCapacity: number;
+    public lobbyThreshold: number;
     public participants: Participant[];
     public bestOf: number;
     public status: GameStatus;
     constructor(id?: number, participants: Participant[] = []) {
         super(id);
         this.participants = participants;
+    }
+    public validate(): void {
+        this.validateCapacity();
+    }
+    private validateCapacity(): void {
+        if (this.bestOf % 2 === 0) {
+            throw new DomainError(`Best of ${this.bestOf} rounds must be odd.`)
+        }
+        if (this.bestOf < this.type.minRounds || this.bestOf > this.type.maxRounds) {
+            throw new DomainError(`Best of ${this.bestOf} rounds is not within the range of ${this.type.minRounds} to ${this.type.maxRounds} allowed for ${this.type.displayName}`);
+        }
+        if (this.lobbyCapacity < this.type.minPlayers || this.lobbyCapacity > this.type.maxPlayers) {
+            throw new DomainError(`Lobby capacity of ${this.lobbyCapacity} is not within the range of ${this.type.minPlayers} to ${this.type.maxPlayers} allowed for ${this.type.displayName}`);
+        }
     }
 }
 
@@ -38,6 +54,9 @@ export class Game extends Aggregate<GameState> implements IGame {
     }
     get lobbyCapacity(): number {
         return this.lobby.capacity;
+    }
+    get lobbyThreshold(): number {
+        return this.lobby.threshold;
     }
     get participants(): Participant[] {
         return this.lobby.participants;
@@ -58,7 +77,7 @@ export class Game extends Aggregate<GameState> implements IGame {
         private readonly startAutomatically: boolean = false,
     ) {
         super(state);
-        this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyCapacity, this.state.participants);
+        this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyThreshold, this.state.lobbyCapacity, this.state.participants);
     }
 
     isCreated(): boolean {

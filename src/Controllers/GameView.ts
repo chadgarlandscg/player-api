@@ -7,6 +7,7 @@ export class GameView {
     gameTypeId: number;
 
     lobbyName: string;
+    lobbyThreshold: number;
     lobbyCapacity: number;
 
     bestOf: number;

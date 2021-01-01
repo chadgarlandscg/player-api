@@ -18,6 +18,8 @@ export class Game implements IDataEntity {
     @Column()
     lobbyName: string;
     @Column()
+    lobbyThreshold: number;
+    @Column()
     lobbyCapacity: number;
 
     @Column()

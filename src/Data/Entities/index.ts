@@ -1,5 +1,5 @@
 export { Game } from './Game'
-export { GameType } from './GameType'
+export { GameType as GameTypeData } from './GameType'
 export { Move } from './Move'
 export { MoveType } from './MoveType'
 export { Round } from './Round'

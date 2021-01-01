@@ -1,4 +1,6 @@
+import { Domain } from "domain";
 import { ValueObject } from "../../base/Domain/Models/ValueObject";
+import { DomainError } from "../Errors/DomainError";
 import { LobbyFullError } from "../Errors/LobbyFullError";
 import { Participant } from "./Participant";
 import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
@@ -6,18 +8,36 @@ import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
 export class Lobby extends ValueObject {
     constructor(
         public readonly name: string,
+        public readonly threshold: number,
         public readonly capacity: number,
         public readonly participants: Participant[] = [],
     ) {
         super();
+        if (!this.threshold || !this.capacity || !this.name) {
+            throw new DomainError("Lobby threshold, capacity, and name are required");
+        }
+        if (this.threshold > this.capacity) {
+            throw new DomainError("Lobby threshold cannot exceed lobby capacity");
+        }
+        if (this.participants.length > this.capacity) {
+            throw new DomainError("Lobby participants cannot exceed capacity");
+        }
     }
 
     isFull(): boolean {
-        return this.participantsJoined().length === this.capacity;
+        return this.participantsPresent().length === this.capacity;
     }
 
     allReady(): boolean {
-        return this.participantsReady().length === this.participantsJoined().length;
+        return this.participantsReady().length === this.participantsPresent().length;
+    }
+
+    isFullEnough() {
+        return this.participantsPresent().length === this.threshold;
+    }
+
+    fullEnoughAndReady() {
+        return this.isFullEnough() === this.allReady();
     }
 
     fullAndReady() {
@@ -26,6 +46,10 @@ export class Lobby extends ValueObject {
 
     invites(): Participant[] {
         return this.participants.filter(p => p.isInvited());
+    }
+
+    participantsPresent(): Participant[] {
+        return this.participants.filter(p => p.isPresent());
     }
 
     participantsJoined(): Participant[] {
@@ -41,6 +65,6 @@ export class Lobby extends ValueObject {
             throw new LobbyFullError();
         }
             
-        return new Lobby(this.name, this.capacity, [...this.participants, participant]);
+        return new Lobby(this.name, this.threshold, this.capacity, [...this.participants, participant]);
     }
 }

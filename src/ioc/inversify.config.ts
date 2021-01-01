@@ -23,16 +23,17 @@ import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "../D
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
 import * as DataEntities from "../Data/Entities";
+import { GameTypeData } from "../Data/Entities";
 import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
 import { IMoveTypeDataRepository } from "../Data/Repositories/IMoveTypeDataRepository";
 import { GameTypeDao } from "../Data/GameTypeDao";
 import { IGameTypeDao } from "../Data/IGameTypeDao";
 import { IRockPaperScissorsService, RockPaperScissorsService } from "../Domain/Services/RockPaperScissorsService";
-import { GameLobbyService, IGameLobbyService } from "../Domain/Services/GameLobbyService";
+import { GameSetupService, IGameSetupService } from "../Domain/Services/GameSetupService";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
-    bind<IGameLobbyService>(TYPES.IGameLobbyService).to(GameLobbyService);
+    bind<IGameSetupService>(TYPES.IGameSetupService).to(GameSetupService);
     bind<IRockPaperScissorsService>(TYPES.IRockPaperScissorsService).to(RockPaperScissorsService);
     bind<IGameDao>(TYPES.IGameDao).to(GameDao);
     bind<IGameViewMapper>(TYPES.IGameViewMapper).to(GameMapper);
@@ -52,7 +53,7 @@ export const bindings = new ContainerModule(bind => {
 
     bind<IGameTypeDao>(TYPES.IGameTypeDao).to(GameTypeDao);
     bind<IGameTypeDataRepository>(TYPES.IGameTypeDataRepository).toDynamicValue(() => {
-        return getRepository(DataEntities.GameType);
+        return getRepository(GameTypeData);
     }).inRequestScope();
     bind<IMoveTypeDataRepository>(TYPES.IMoveTypeDataRepository).toDynamicValue(() => {
         return getRepository(DataEntities.MoveType);

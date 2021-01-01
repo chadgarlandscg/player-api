@@ -1,6 +1,6 @@
 import { IDataRepository } from "../../base/Data/IDataRepository";
-import { GameType } from "../Entities";
+import { GameTypeData } from "../Entities";
 
-export interface IGameTypeDataRepository extends IDataRepository<GameType> {
+export interface IGameTypeDataRepository extends IDataRepository<GameTypeData> {
 
 }

@@ -1,6 +1,6 @@
 import { IDao } from "../base/Data/IDao";
-import { GameType } from "./Entities";
+import { GameTypeData } from "./Entities";
 
-export interface IGameTypeDao extends IDao<GameType> {
+export interface IGameTypeDao extends IDao<GameTypeData> {
 
 }

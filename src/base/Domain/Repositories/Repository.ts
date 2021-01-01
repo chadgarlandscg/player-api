@@ -6,7 +6,7 @@ import { Aggregate, AggregateState } from "../Models/Aggregate";
 import { IRepository } from "./IRepository";
 
 @injectable()
-export class Repository<TAggregate extends Aggregate<AggregateState>, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
+export abstract class Repository<TAggregate extends Aggregate<AggregateState>, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
     protected readonly dao: IDao<TDataEntity>;
     protected readonly mapper: IRepositoryMapper<TDataEntity, TAggregate>;
      
@@ -24,14 +24,14 @@ export class Repository<TAggregate extends Aggregate<AggregateState>, TDataEntit
 
     async search(): Promise<TAggregate[]> {
         const results = await this.dao.search();
-        const aggregates = results.map(this.mapper.toModel)
+        const aggregates = results.map(r => this.mapper.toModel(r))
         return aggregates;
     }
 
     async save(aggregate: TAggregate): Promise<TAggregate> {
         const data = this.mapper.toData(aggregate);
         const savedData = await this.dao.save(data);
-        const savedAggregate = this.mapper.toModel(savedData);
+        const savedAggregate = this.mapper.toModel(savedData, aggregate);
         return savedAggregate;
     }
 }

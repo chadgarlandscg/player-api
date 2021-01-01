@@ -1,6 +1,9 @@
 import { Entity, Identifiable } from './Entity';
 
 export class AggregateState implements Identifiable {
+    public validate(): void {
+        return;
+    }
     public readonly id: number;
     constructor(id?: number) {
         if (id) {
@@ -16,5 +19,6 @@ export class Aggregate<TState extends AggregateState> extends Entity {
     ) {
         super(props.id);
         this.state = props;
+        this.state.validate();
     }
 }

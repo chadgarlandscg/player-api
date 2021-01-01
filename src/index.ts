@@ -6,6 +6,7 @@ import { InversifyExpressServer } from "inversify-express-utils";
 import { bindings } from "./ioc/inversify.config";
 import { Container } from "inversify";
 import * as Entities from "./Data/Entities";
+import { GameTypeData } from "./Data/Entities";
 import { gameTypes } from "./Domain/Models/StandardTypes/GameTypes";
 import { ApplicationError } from "./Domain/Errors/DomainError";
 
@@ -21,7 +22,7 @@ async function runApp() {
         entities: Object.values(Entities)
     });
 
-    const gameTypeRepo = await typeorm.getRepository(Entities.GameType);
+    const gameTypeRepo = await typeorm.getRepository(GameTypeData);
     const alreadyInitialized = !!await gameTypeRepo.count();
     if (!alreadyInitialized) await gameTypeRepo.save(gameTypes);
 

@@ -32,15 +32,16 @@ export class GameController extends Controller<GameView, IGame> implements inter
     async create(
         @requestBody() body: {
             lobbyName: string,
+            lobbyThreshold: number,
             lobbyCapacity: number,
             bestOf: number,
             gameTypeId: number,
             gameTypeName: string
         }
     ): Promise<GameView> {
-        const {lobbyName, lobbyCapacity, bestOf, gameTypeId} = body;
+        const {lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId} = body;
         if (!lobbyName) throw new Error('Lobby name must be provided!');
-        const newGame = await this.gameService.createGame(lobbyName, lobbyCapacity, bestOf, gameTypeId);
+        const newGame = await this.gameService.createGame(lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId);
         return this.gameMapper.toView(newGame);
     }
 

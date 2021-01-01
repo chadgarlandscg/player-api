@@ -5,15 +5,15 @@ import { IGameRepository } from "../../Domain/Repositories/IGameRepository";
 import { Game, IGame } from "../../Domain/Models/Game";
 import { Service } from "../../base/Services/Service";
 import { GameTypeView } from "../../Controllers/GameTypeView";
-import { IGameLobbyService } from "../../Domain/Services/GameLobbyService";
+import { IGameSetupService } from "../../Domain/Services/GameSetupService";
 import { ParticipantStatus } from "../../Domain/Models/StandardTypes/ParticipantStatus";
 import { IGameServiceMapper } from "../../Domain/Mappers/IGameMapper";
 import { Participant } from "../../Domain/Models/Participant";
 
 @injectable()
 export class GameService extends Service<IGame, Game> implements IGameService {
-    @inject(TYPES.IGameLobbyService)
-    private readonly gameLobbyService: IGameLobbyService;
+    @inject(TYPES.IGameSetupService)
+    private readonly gameSetupService: IGameSetupService;
 
     constructor(
         @inject(TYPES.IGameRepository) private readonly gameRepository: IGameRepository,
@@ -22,8 +22,8 @@ export class GameService extends Service<IGame, Game> implements IGameService {
         super(gameRepository, gameMapper);
     }
 
-    async createGame(lobbyName: string, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<IGame> {
-        const newGame = await this.gameLobbyService.createGameLobby(lobbyName, lobbyCapacity, bestOf, gameTypeId);
+    async createGame(lobbyName: string, lobbyThreshold: number, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<IGame> {
+        const newGame = await this.gameSetupService.createGameLobby(lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId);
         const savedGame = await this.gameRepository.save(newGame);
 
         const gameType = await this.gameRepository.getGameType(gameTypeId);

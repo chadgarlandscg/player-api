@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
 import * as DataEntities from "../../Data/Entities";
+import { GameTypeData } from "../../Data/Entities";
 import { Game, GameState, IGame } from "../Models/Game";
 import { Participant } from "../Models/Participant";
 import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "./IGameMapper";
@@ -17,13 +18,14 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         this.toParticipantDataEntities = this.toParticipantDataEntities.bind(this);
         this.toParticipantDataEntity = this.toParticipantDataEntity.bind(this);
     }
-    toModel(gameData: DataEntities.Game): Game {
+    toModel(gameData: DataEntities.Game, originalAggregate: Game): Game {
         const gameState = new GameState(gameData.id);
         gameState.lobbyName = gameData.lobbyName;
+        gameState.lobbyThreshold = gameData.lobbyThreshold;
         gameState.lobbyCapacity = gameData.lobbyCapacity;
         gameState.bestOf = gameData.bestOf;
         gameState.status = gameData.status;
-        gameState.type = gameData.gameType;
+        gameState.type = gameData.gameType || originalAggregate.type;
         gameState.participants = gameData.participants && this.toParticipantModels(gameData.participants);
 
         return new Game(gameState);
@@ -42,6 +44,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
     toData(game: Game): DataEntities.Game {
         const gameData = new DataEntities.Game();
         gameData.lobbyName = game.lobbyName;
+        gameData.lobbyThreshold = game.lobbyThreshold;
         gameData.lobbyCapacity = game.lobbyCapacity;
         gameData.bestOf = game.bestOf;
         gameData.participants = game.participants && this.toParticipantDataEntities(game);
@@ -68,6 +71,8 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
     toView(gameDto: IGame): GameView {
         const gameView = new GameView();
         gameView.lobbyName = gameDto.lobbyName;
+        gameView.lobbyThreshold = gameDto.lobbyThreshold;
+        gameView.lobbyCapacity = gameDto.lobbyCapacity;
         gameView.gameTypeId = gameDto.type.id;
         gameView.gameType = gameDto.type?.name;
         gameView.bestOf = gameDto.bestOf;
@@ -82,6 +87,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         const gameDto: IGame = {
             id: game.id,
             lobbyName: game.lobbyName,
+            lobbyThreshold: game.lobbyThreshold,
             lobbyCapacity: game.lobbyCapacity,
             bestOf: game.bestOf,
             status: game.status,

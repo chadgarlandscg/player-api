@@ -6,5 +6,5 @@ export interface IRepositoryMapper<
     TAggregate extends Aggregate<AggregateState>,
 > {
     toData(aggregate: TAggregate): TDataEntity;
-    toModel(dataEntity: TDataEntity): TAggregate;
+    toModel(dataEntity: TDataEntity, original?: TAggregate): TAggregate;
 }
