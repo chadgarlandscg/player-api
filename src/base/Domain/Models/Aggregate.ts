@@ -5,10 +5,11 @@ export class AggregateState implements Identifiable {
 }
 
 export class Aggregate<TState extends AggregateState> extends Entity {
-    state: AggregateState;
+    protected state: TState;
     constructor(
         props: TState
     ) {
         super(props.id);
+        this.state = props;
     }
 }

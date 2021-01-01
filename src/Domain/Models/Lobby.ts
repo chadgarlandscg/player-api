@@ -5,8 +5,9 @@ import { ParticipantStatus } from "./StandardTypes/ParticipantStatus";
 
 export class Lobby extends ValueObject {
     constructor(
-        public readonly participants: Participant[] = [],
-        private readonly capacity: number,
+        public readonly name: string,
+        public readonly capacity: number,
+        public readonly participants: Participant[],
     ) {
         super();
     }
@@ -24,6 +25,6 @@ export class Lobby extends ValueObject {
             throw new LobbyFullError();
         }
             
-        return new Lobby([...this.participants, participant], this.capacity);
+        return new Lobby(this.name, this.capacity, [...this.participants, participant]);
     }
 }

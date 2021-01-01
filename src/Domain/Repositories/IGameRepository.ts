@@ -4,9 +4,9 @@ import { Game } from "../Models/Game";
 import { RockPaperScissors } from "../Models/RockPaperScissors/RockPaperScissors";
 
 export interface IGameRepository extends IRepository<Game> {
-    createGame(lobbyName: string, lobbyCapacity: number, gameType: GameType): RockPaperScissors;
+    createGame(lobbyName: string, lobbyCapacity: number, bestOf: number, gameType: GameType): RockPaperScissors;
 
     getGameType(gameTypeId: number): Promise<GameType>;
 
-    createGameLobby(lobbyName: string, lobbyCapacity: number, gameTypeId: number): Promise<Game>;
+    createGameLobby(lobbyName: string, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<Game>;
 }

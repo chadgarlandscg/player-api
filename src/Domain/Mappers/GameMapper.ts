@@ -28,12 +28,12 @@ export class GameMapper implements IGameMapper {
 
         return game;
     }
-    toView(gameModel: IGame): GameView {
+    toView(gameModelDto: IGame): GameView {
         const gameView = new GameView();
-        gameView.name = gameModel.lobbyName;
-        gameView.gameType = gameModel.type.name;
-        if (!!gameModel.id) {
-            gameView.id = gameModel.id;
+        gameView.name = gameModelDto.lobbyName;
+        gameView.gameType = gameModelDto.type.name;
+        if (!!gameModelDto.id) {
+            gameView.id = gameModelDto.id;
         }
 
         return gameView;

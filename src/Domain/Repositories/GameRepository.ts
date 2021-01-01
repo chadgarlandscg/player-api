@@ -10,6 +10,7 @@ import * as DataEntities from "../../Data/Entities";
 import { IGameMapper } from "../Mappers/IGameMapper";
 import { IGameTypeDao } from "../../Data/IGameTypeDao";
 import { DomainError } from "../Errors/DomainError";
+import { GameStatus } from "../Models/StandardTypes/GameStatus";
 
 @injectable()
 export class GameRepository extends Repository<Game, DataEntities.Game> implements IGameRepository { 
@@ -30,17 +31,20 @@ export class GameRepository extends Repository<Game, DataEntities.Game> implemen
         return gameType;
     }
 
-    createGame(lobbyName: string, lobbyCapacity: number, gameType: GameType): RockPaperScissors {
-        return new RockPaperScissors({lobbyName, lobbyCapacity, participants: [], type: gameType});
+    createGame(lobbyName: string, lobbyCapacity: number, bestOf: number, gameType: GameType): RockPaperScissors {
+        if (!gameType.rockPaperScissors()) {
+            throw new Error("Must be of type Rock Paper Scissors.");
+        }
+        return new RockPaperScissors({lobbyName, lobbyCapacity, bestOf, participants: [], status: GameStatus.Created, type: gameType});
     }
 
-    async createGameLobby(lobbyName: string, lobbyCapacity: number, gameTypeId: number): Promise<Game> {
+    async createGameLobby(lobbyName: string, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<Game> {
         const gameType = await this.getGameType(gameTypeId);
         if (!gameType.isSupported()) {
             throw new DomainError("Game type is not available to play.");
         }
 
-        return new Game({lobbyName, lobbyCapacity, type: gameType});
+        return new Game({lobbyName, lobbyCapacity, bestOf, participants: [], status: GameStatus.Created, type: gameType});
         
         // switch (gameType.type) {
         //     case ConcreteGameType.RockPaperScissors:

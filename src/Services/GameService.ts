@@ -13,8 +13,8 @@ export class GameService extends Service<IGame, Game> implements IGameService {
         super(gameRepository);
     }
 
-    async createGame(lobbyName: string, lobbyCapacity: number, gameTypeId: number): Promise<Game> {
-        const newGame = await this.gameRepository.createGameLobby(lobbyName, lobbyCapacity, gameTypeId);
+    async createGame(lobbyName: string, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<IGame> {
+        const newGame = await this.gameRepository.createGameLobby(lobbyName, lobbyCapacity, bestOf, gameTypeId);
         const savedGame = await this.gameRepository.save(newGame);
         return savedGame;
     }

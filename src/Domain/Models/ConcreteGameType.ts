@@ -2,8 +2,8 @@ import { MoveType } from "./ConcreteMoveType";
 import { GameTypeStatus } from "./StandardTypes/GameTypeStatus";
 
 export enum ConcreteGameType {
-    RockPaperScissors,
-    ApiWars
+    RockPaperScissors = "RockPaperScissors",
+    ApiWars = "ApiWars"
 }
 
 export class IGameType {
@@ -48,7 +48,7 @@ export class GameType implements IGameType {
     readonly status: GameTypeStatus;
 
     isActive(): boolean {
-        return status === GameTypeStatus.Active;
+        return this.status === GameTypeStatus.Active;
     }
 
     isSupported(): boolean {
@@ -57,5 +57,9 @@ export class GameType implements IGameType {
 
     isConcrete(): boolean {
         return !!this.type;
+    }
+
+    rockPaperScissors(): boolean {
+        return this.type === ConcreteGameType.RockPaperScissors;
     }
 }
