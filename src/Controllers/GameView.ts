@@ -1,5 +1,21 @@
+import { GameStatus } from "../Domain/Models/StandardTypes/GameStatus";
+
 export class GameView {
     id: number;
-    name: string;
+
     gameType: string;
+    gameTypeId?: number;
+
+    lobbyName: string;
+    lobbyCapacity: number;
+
+    bestOf: number;
+    status: GameStatus;
+
+    participants: ParticipantView[];
+}
+
+export class ParticipantView {
+    playerId: number;
+    name: string;
 }

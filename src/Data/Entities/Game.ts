@@ -12,7 +12,7 @@ export class Game implements IDataEntity {
 
     @Column()
     gameTypeId?: number;
-    @ManyToOne(type => GameType)
+    @ManyToOne(type => GameType, {eager: true})
     type: GameType;
 
     @Column()

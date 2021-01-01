@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
+    "watch": "tsc -w",
     "build": "tsc",
     "start": "tsc && node out/index.js",
     "init": "tsc --init"

@@ -54,7 +54,7 @@ export class Game extends Aggregate<GameState> implements IGame {
         private readonly startWhenFull: boolean = false,
     ) {
         super(state);
-        this.lobby = new Lobby(this.lobbyName, this.lobbyCapacity, this.participants);
+        this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyCapacity, this.state.participants);
     }
 
     started(): boolean {

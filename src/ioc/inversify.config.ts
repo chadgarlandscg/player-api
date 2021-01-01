@@ -21,16 +21,19 @@ import { IPlayerRepository } from "../Domain/Repositories/IPlayerRepository";
 import { PlayerRepository } from "../Domain/Repositories/PlayerRepository";
 import { IGameMapper } from "../Domain/Mappers/IGameMapper";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
-import { IDataRepository } from "../base/Data/IDataRepository";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
 import * as DataEntities from "../Data/Entities";
 import { IGameTypeDataRepository } from "../Data/Repositories/IGameTypeDataRepository";
 import { IMoveTypeDataRepository } from "../Data/Repositories/IMoveTypeDataRepository";
 import { GameTypeDao } from "../Data/GameTypeDao";
 import { IGameTypeDao } from "../Data/IGameTypeDao";
+import { IRockPaperScissorsService, RockPaperScissorsService } from "../Domain/Services/RockPaperScissorsService";
+import { GameLobbyService, IGameLobbyService } from "../Domain/Services/GameLobbyService";
 
 export const bindings = new ContainerModule(bind => {
     bind<IGameService>(TYPES.IGameService).to(GameService);
+    bind<IGameLobbyService>(TYPES.IGameLobbyService).to(GameLobbyService);
+    bind<IRockPaperScissorsService>(TYPES.IRockPaperScissorsService).to(RockPaperScissorsService);
     bind<IGameDao>(TYPES.IGameDao).to(GameDao);
     bind<IGameMapper>(TYPES.IGameMapper).to(GameMapper);
     bind<IGameRepository>(TYPES.IGameRepository).to(GameRepository);

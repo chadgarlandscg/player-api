@@ -1,4 +1,3 @@
-import { DeepPartial } from "typeorm";
 import { IDataEntity } from "./IDataEntity";
 
 export interface IDao<TDataEntity extends IDataEntity> {

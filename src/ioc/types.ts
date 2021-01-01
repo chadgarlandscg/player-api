@@ -8,6 +8,8 @@ const TYPES = {
     IGameMapper: Symbol("IGameMapper"),
     IGameDataRepository: Symbol("IGameDataRepository"),
     IGameRepository: Symbol("IGameRepository"),
+    IGameLobbyService: Symbol("IGameLobbyService"),
+    IRockPaperScissorsService: Symbol("IRockPaperScissorsService"),
     // Standard Types:
     IGameTypeDao: Symbol("IGameTypeDao"),
     IGameTypeDataRepository: Symbol("IGameTypeDataRepository"),
