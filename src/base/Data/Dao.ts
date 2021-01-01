@@ -5,11 +5,8 @@ import { IDataEntity } from "./IDataEntity";
 import { IDataRepository } from "./IDataRepository";
 
 @injectable()
-export class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
-    private readonly dataRepository: IDataRepository<TDataEntity>;
-    
-    constructor(dataRepository: IDataRepository<TDataEntity>) {
-        this.dataRepository = dataRepository;
+export class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {  
+    constructor(private readonly dataRepository: IDataRepository<TDataEntity>) {
     }
 
     async get(id: number): Promise<TDataEntity | undefined> {

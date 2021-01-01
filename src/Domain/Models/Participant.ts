@@ -12,4 +12,16 @@ export class Participant {
             this.id = id;
         }
     }
+
+    isInvited(): boolean {
+        return this.status === ParticipantStatus.Invited;
+    }
+
+    hasJoined(): boolean {
+        return this.status === ParticipantStatus.Joined;
+    }
+
+    isReady(): boolean {
+        return this.status === ParticipantStatus.Ready;
+    }
 }

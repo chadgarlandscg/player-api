@@ -22,6 +22,10 @@ export class GameState extends AggregateState implements IGame {
     public participants: Participant[];
     public bestOf: number;
     public status: GameStatus;
+    constructor(participants: Participant[] = []) {
+        super();
+        this.participants = participants;
+    }
 }
 
 export class Game extends Aggregate<GameState> implements IGame {
@@ -51,7 +55,7 @@ export class Game extends Aggregate<GameState> implements IGame {
 
     constructor(
         state: GameState,
-        private readonly startWhenFull: boolean = false,
+        private readonly startAutomatically: boolean = false,
     ) {
         super(state);
         this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyCapacity, this.state.participants);
@@ -73,9 +77,9 @@ export class Game extends Aggregate<GameState> implements IGame {
         if (this.isStarted() || this.isFinished()) {
             throw new DomainError("Can't join a game that's started or ended.");
         }
-        const newLobby = this.lobby.addParticipant(participant);
+        const newLobby = this.lobby.withParticipant(participant);
         this.lobby = newLobby;
-        if (this.lobby.full() && this.startWhenFull) {
+        if (this.lobby.fullAndReady() && this.startAutomatically) {
             this.start();
         }
     }

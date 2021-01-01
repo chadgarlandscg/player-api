@@ -1,14 +1,22 @@
 import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
 import * as DataEntities from "../../Data/Entities";
-import { Game, IGame } from "../Models/Game";
+import { Game, GameState, IGame } from "../Models/Game";
 import { Participant } from "../Models/Participant";
 import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "./IGameMapper";
 
 @injectable()
 export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGameServiceMapper {
     toModel(gameData: DataEntities.Game): Game {
-        return new Game({...gameData, type: gameData.gameType});
+        const gameState = new GameState();
+        gameState.lobbyName = gameData.lobbyName;
+        gameState.lobbyCapacity = gameData.lobbyCapacity;
+        gameState.bestOf = gameData.bestOf;
+        gameState.status = gameData.status;
+        gameState.type = gameData.gameType;
+        gameState.participants = gameData.participants.map(p => new Participant(p.name, p.playerId, p.status, p.id));
+
+        return new Game(gameState);
     }
     toData(game: Game): DataEntities.Game {
         const gameData = new DataEntities.Game();
@@ -18,9 +26,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         gameData.participants = this.toParticipants(game);
 
         gameData.gameTypeId = game.type.id;
-        if (game.id) {
-            gameData.id = game.id;
-        }
+        gameData.id = game.id;
 
         return gameData;
     }
@@ -45,9 +51,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         gameView.bestOf = gameDto.bestOf;
         gameView.status = gameDto.status;
         gameView.participants = gameDto.participants;
-        if (!!gameDto.id) {
-            gameView.id = gameDto.id;
-        }
+        gameView.id = gameDto.id;
 
         return gameView;
     }

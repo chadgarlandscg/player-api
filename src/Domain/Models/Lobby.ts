@@ -12,16 +12,32 @@ export class Lobby extends ValueObject {
         super();
     }
 
-    full() {
-        return this.participantsReady().length === this.capacity;
+    isFull(): boolean {
+        return this.participantsJoined().length === this.capacity;
+    }
+
+    allReady(): boolean {
+        return this.participantsReady().length === this.participantsJoined().length;
+    }
+
+    fullAndReady() {
+        return this.isFull() && this.allReady();
+    }
+
+    invites(): Participant[] {
+        return this.participants.filter(p => p.isInvited());
+    }
+
+    participantsJoined(): Participant[] {
+        return this.participants.filter(p => p.hasJoined());
     }
 
     participantsReady(): Participant[] {
-        return this.participants.filter(p => p.status === ParticipantStatus.Ready);
+        return this.participants.filter(p => p.isReady());
     }
 
-    addParticipant(participant: Participant): Lobby {
-        if (this.full()) {
+    withParticipant(participant: Participant): Lobby {
+        if (this.isFull()) {
             throw new LobbyFullError();
         }
             

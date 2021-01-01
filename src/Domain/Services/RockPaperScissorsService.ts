@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { Service } from "../../base/Services/Service";
 import TYPES from "../../ioc/types";
 import { GameType } from "../Models/ConcreteGameType";
-import { Game, IGame } from "../Models/Game";
+import { Game, GameState, IGame } from "../Models/Game";
 import { RockPaperScissors } from "../Models/RockPaperScissors/RockPaperScissors";
 import { GameStatus } from "../Models/StandardTypes/GameStatus";
 import { IGameRepository } from "../Repositories/IGameRepository";
@@ -21,6 +21,15 @@ export class RockPaperScissorsService implements IRockPaperScissorsService {
         if (!gameType.rockPaperScissors()) {
             throw new Error("Must be of type Rock Paper Scissors.");
         }
-        return new RockPaperScissors({lobbyName, lobbyCapacity, bestOf, participants: [], status: GameStatus.Created, type: gameType});
+        
+        const rpsState = new GameState();
+        rpsState.lobbyName = lobbyName
+        rpsState.lobbyCapacity = lobbyCapacity
+        rpsState.bestOf = bestOf
+        rpsState.participants = [];
+        rpsState.status = GameStatus.Created;
+        rpsState.type = gameType;
+
+        return new RockPaperScissors(rpsState);
     }
 }

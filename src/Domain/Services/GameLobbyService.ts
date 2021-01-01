@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { Service } from "../../base/Services/Service";
 import TYPES from "../../ioc/types";
 import { DomainError } from "../Errors/DomainError";
-import { Game, IGame } from "../Models/Game";
+import { Game, GameState, IGame } from "../Models/Game";
 import { GameStatus } from "../Models/StandardTypes/GameStatus";
 import { IGameRepository } from "../Repositories/IGameRepository";
 
@@ -22,6 +22,13 @@ export class GameLobbyService implements IGameLobbyService {
             throw new DomainError("Game type is not available to play.");
         }
 
-        return new Game({lobbyName, lobbyCapacity, bestOf, participants: [], status: GameStatus.Created, type: gameType});    
+        const gameState = new GameState();
+        gameState.lobbyName = lobbyName;
+        gameState.lobbyCapacity = lobbyCapacity;
+        gameState.bestOf = bestOf;
+        gameState.status = GameStatus.Created;
+        gameState.type = gameType;
+
+        return new Game(gameState);
     }
 }
