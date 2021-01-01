@@ -1,9 +1,9 @@
 import { IDataEntity } from "../../Data/IDataEntity";
-import { Aggregate } from "../Models/Aggregate";
+import { Aggregate, AggregateState } from "../Models/Aggregate";
 
 export interface IRepositoryMapper<
     TDataEntity extends IDataEntity,
-    TAggregate extends Aggregate<DeepPartial<TDataEntity>>,
+    TAggregate extends Aggregate<AggregateState>,
 > {
     toData(aggregate: TAggregate): TDataEntity;
     toModel(dataEntity: TDataEntity): TAggregate;

@@ -1,9 +1,9 @@
 import { IDto } from "../../Services/IDto";
-import { Aggregate } from "../Models/Aggregate";
+import { Aggregate, AggregateState } from "../Models/Aggregate";
 
 export interface IServiceMapper<
     TDto extends IDto,
-    TAggregate extends Aggregate<TDto>,
+    TAggregate extends Aggregate<AggregateState>,
 > {
-    toDto(aggregate: TAggregate): TDto;
+    toDto<TExtraArg>(aggregate: TAggregate, arg?: TExtraArg): TDto;
 }

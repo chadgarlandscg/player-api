@@ -19,7 +19,7 @@ import { IGameRepository } from "../Domain/Repositories/IGameRepository";
 import { GameRepository } from "../Domain/Repositories/GameRepository";
 import { IPlayerRepository } from "../Domain/Repositories/IPlayerRepository";
 import { PlayerRepository } from "../Domain/Repositories/PlayerRepository";
-import { IGameMapper } from "../Domain/Mappers/IGameMapper";
+import { IGameRepositoryMapper, IGameServiceMapper, IGameViewMapper } from "../Domain/Mappers/IGameMapper";
 import { GameMapper } from "../Domain/Mappers/GameMapper";
 import { IGameDataRepository } from "../Data/IGameDataRepository";
 import * as DataEntities from "../Data/Entities";
@@ -35,7 +35,9 @@ export const bindings = new ContainerModule(bind => {
     bind<IGameLobbyService>(TYPES.IGameLobbyService).to(GameLobbyService);
     bind<IRockPaperScissorsService>(TYPES.IRockPaperScissorsService).to(RockPaperScissorsService);
     bind<IGameDao>(TYPES.IGameDao).to(GameDao);
-    bind<IGameMapper>(TYPES.IGameMapper).to(GameMapper);
+    bind<IGameViewMapper>(TYPES.IGameViewMapper).to(GameMapper);
+    bind<IGameRepositoryMapper>(TYPES.IGameRepositoryMapper).to(GameMapper);
+    bind<IGameServiceMapper>(TYPES.IGameServiceMapper).to(GameMapper);
     bind<IGameRepository>(TYPES.IGameRepository).to(GameRepository);
     bind<IGameDataRepository>(TYPES.IGameDataRepository).toDynamicValue(() => {
         return getRepository(Game);

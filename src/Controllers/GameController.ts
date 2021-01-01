@@ -7,13 +7,13 @@ import { GameView } from "./GameView";
 import { GameType } from "../Domain/Models/ConcreteGameType";
 import { Controller } from "../base/Controllers/Controller";
 import { IGame } from "../Domain/Models/Game";
-import { IGameMapper } from "../Domain/Mappers/IGameMapper";
+import { IGameViewMapper } from "../Domain/Mappers/IGameMapper";
 
 @controller("/games")
 export class GameController extends Controller<GameView, IGame> implements interfaces.Controller {
     constructor(
         @inject(TYPES.IGameService) private readonly gameService: IGameService,
-        @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper
+        @inject(TYPES.IGameViewMapper) private readonly gameMapper: IGameViewMapper
     ) {
         super(gameService, gameMapper);
     }

@@ -2,11 +2,11 @@ import { injectable } from "inversify";
 import { IDao } from "../../Data/IDao";
 import { IDataEntity } from "../../Data/IDataEntity";
 import { IRepositoryMapper } from "../Mappers/IRepositoryMapper";
-import { Aggregate } from "../Models/Aggregate";
+import { Aggregate, AggregateState } from "../Models/Aggregate";
 import { IRepository } from "./IRepository";
 
 @injectable()
-export class Repository<TAggregate extends Aggregate<DeepPartial<TDataEntity>>, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
+export class Repository<TAggregate extends Aggregate<AggregateState>, TDataEntity extends IDataEntity> implements IRepository<TAggregate> {
     protected readonly dao: IDao<TDataEntity>;
     protected readonly mapper: IRepositoryMapper<TDataEntity, TAggregate>;
      

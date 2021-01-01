@@ -7,16 +7,18 @@ import { Service } from "../../base/Services/Service";
 import { GameTypeView } from "../../Controllers/GameTypeView";
 import { IGameLobbyService } from "../../Domain/Services/GameLobbyService";
 import { ParticipantStatus } from "../../Domain/Models/StandardTypes/ParticipantStatus";
-import { IGameMapper } from "../../Domain/Mappers/IGameMapper";
+import { IGameServiceMapper } from "../../Domain/Mappers/IGameMapper";
 
 @injectable()
 export class GameService extends Service<IGame, Game> implements IGameService {
+    @inject(TYPES.IGameLobbyService)
+    private readonly gameLobbyService: IGameLobbyService;
+
     constructor(
-        @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper,
         @inject(TYPES.IGameRepository) private readonly gameRepository: IGameRepository,
-        @inject(TYPES.IGameLobbyService) private readonly gameLobbyService: IGameLobbyService
+        @inject(TYPES.IGameServiceMapper) private readonly gameMapper: IGameServiceMapper,
     ) {
-        super(gameRepository);
+        super(gameRepository, gameMapper);
     }
 
     async createGame(lobbyName: string, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<IGame> {

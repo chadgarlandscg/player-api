@@ -6,17 +6,18 @@ import { Game } from "../Models/Game";
 import { GameType } from "../Models/ConcreteGameType";
 import { Repository } from "../../base/Domain/Repositories/Repository";
 import * as DataEntities from "../../Data/Entities";
-import { IGameMapper } from "../Mappers/IGameMapper";
+import { IGameRepositoryMapper } from "../Mappers/IGameMapper";
 import { IGameTypeDao } from "../../Data/IGameTypeDao";
 import { DomainError } from "../Errors/DomainError";
-import { GameStatus } from "../Models/StandardTypes/GameStatus";
 
 @injectable()
 export class GameRepository extends Repository<Game, DataEntities.Game> implements IGameRepository { 
+    @inject(TYPES.IGameTypeDao)
+    private readonly gameTypeDao: IGameTypeDao;
+
     constructor(
-        @inject(TYPES.IGameTypeDao) private readonly gameTypeDao: IGameTypeDao,
         @inject(TYPES.IGameDao) private readonly gameDao: IGameDao,
-        @inject(TYPES.IGameMapper) private readonly gameMapper: IGameMapper
+        @inject(TYPES.IGameRepositoryMapper) private readonly gameMapper: IGameRepositoryMapper
     ) {
         super(gameDao, gameMapper);
     }
