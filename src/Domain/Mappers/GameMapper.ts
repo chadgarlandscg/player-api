@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { GameView } from "../../Controllers/GameView";
 import * as DataEntities from "../../Data/Entities";
 import { DomainError } from "../Errors/DomainError";
-import { ConcreteGameType } from "../Models/ConcreteGameType";
+import { ConcreteGameType, GameType } from "../Models/ConcreteGameType";
 import { Game, IGame } from "../Models/Game";
 import { Participant } from "../Models/Participant";
 import { RockPaperScissors } from "../Models/RockPaperScissors/RockPaperScissors";
@@ -11,7 +11,7 @@ import { IGameMapper } from "./IGameMapper";
 @injectable()
 export class GameMapper implements IGameMapper {
     toModel(gameData: DataEntities.Game): Game {
-        return new Game({...gameData});
+        return new Game({...gameData, type: gameData.gameType});
     }
     toData(game: Game): DataEntities.Game {
         const gameData = new DataEntities.Game();
@@ -54,5 +54,18 @@ export class GameMapper implements IGameMapper {
         }
 
         return gameView;
+    }
+
+    toDto(game: Game, gameType: GameType): IGame {
+        const gameDto: IGame = {
+            id: game.id,
+            lobbyName: game.lobbyName,
+            lobbyCapacity: game.lobbyCapacity,
+            bestOf: game.bestOf,
+            status: game.status,
+            participants: game.participants,
+            type: game.type || gameType,
+        };
+        return gameDto;
     }
 }

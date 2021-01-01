@@ -27,6 +27,7 @@ export class PlayerService implements IPlayerService {
     async registerPlayer(username: string): Promise<Player> {
         const newPlayer = new Player();
         newPlayer.username = username;
+        newPlayer.code = "1234";
         const newlyRegisteredPlayer = await this.playerDao.savePlayer(newPlayer);
         return newlyRegisteredPlayer;
     }

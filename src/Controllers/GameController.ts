@@ -1,5 +1,5 @@
 import { Request } from "express"
-import { interfaces, controller, httpGet, httpPost, requestBody } from "inversify-express-utils"
+import { interfaces, controller, httpGet, httpPost, requestBody, requestParam } from "inversify-express-utils"
 import { IGameService } from "../Application/Services/IGameService";
 import { inject } from "inversify";
 import TYPES from "../ioc/types";
@@ -41,6 +41,19 @@ export class GameController extends Controller<GameView, IGame> implements inter
         const {lobbyName, lobbyCapacity, bestOf, gameTypeId} = body;
         if (!lobbyName) throw new Error('Lobby name must be provided!');
         const newGame = await this.gameService.createGame(lobbyName, lobbyCapacity, bestOf, gameTypeId);
+        return this.gameMapper.toView(newGame);
+    }
+
+    @httpPost("/:id/players/")
+    async join(
+        @requestParam("id") id: number,
+        @requestBody() body: {
+            playerId: number,
+            name: string,
+        }
+    ): Promise<GameView> {
+        const {playerId, name} = body;
+        const newGame = await this.gameService.joinGame(id, playerId, name);
         return this.gameMapper.toView(newGame);
     }
 }

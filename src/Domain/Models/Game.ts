@@ -57,13 +57,21 @@ export class Game extends Aggregate<GameState> implements IGame {
         this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyCapacity, this.state.participants);
     }
 
-    started(): boolean {
+    isCreated(): boolean {
         return this.status === GameStatus.Created;
     }
 
+    isStarted(): boolean {
+        return this.status === GameStatus.Started;
+    }
+
+    isFinished(): boolean {
+        return this.status === GameStatus.Finished;
+    }
+
     addParticipant(participant: Participant): void {
-        if (this.started()) {
-            throw new DomainError("Game has already started.");
+        if (this.isStarted() || this.isFinished()) {
+            throw new DomainError("Can't join a game that's started or ended.");
         }
         const newLobby = this.lobby.addParticipant(participant);
         this.lobby = newLobby;
@@ -72,7 +80,21 @@ export class Game extends Aggregate<GameState> implements IGame {
         }
     }
 
-    private start(): void {
+    start(): void {
+        if (this.isStarted() || this.isFinished()) {
+            throw new DomainError("Can't start a game that's started or ended.");
+        }
+        this.state.status = GameStatus.Started;
+    }
+
+    protected isComplete(): boolean {
+        return false;
+    }
+
+    finish(): void {
+        if (!this.isComplete()) {
+            throw new DomainError("Can't end a game that's incomplete.");
+        }
         this.state.status = GameStatus.Started;
     }
 }

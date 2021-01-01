@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { FindConditions } from "typeorm";
 import { IDao } from "./IDao";
 import { IDataEntity } from "./IDataEntity";
 import { IDataRepository } from "./IDataRepository";
@@ -12,8 +13,8 @@ export class Dao<TDataEntity extends IDataEntity> implements IDao<TDataEntity> {
     }
 
     async get(id: number): Promise<TDataEntity | undefined> {
-        const dataEntity = await this.dataRepository.findOne(id);
-        return dataEntity;
+        const dataEntity = await this.dataRepository.find({where: {id}});
+        return dataEntity[0];
     }
 
     async search(): Promise<TDataEntity[]> {

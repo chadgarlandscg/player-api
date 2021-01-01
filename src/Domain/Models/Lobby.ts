@@ -7,7 +7,7 @@ export class Lobby extends ValueObject {
     constructor(
         public readonly name: string,
         public readonly capacity: number,
-        public readonly participants: Participant[],
+        public readonly participants: Participant[] = [],
     ) {
         super();
     }

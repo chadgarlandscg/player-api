@@ -13,7 +13,7 @@ export class Game implements IDataEntity {
     @Column()
     gameTypeId?: number;
     @ManyToOne(type => GameType, {eager: true})
-    type: GameType;
+    gameType: GameType;
 
     @Column()
     lobbyName: string;
@@ -30,9 +30,9 @@ export class Game implements IDataEntity {
     })
     status: GameStatus;
     
-    @OneToMany(type => Round, round => round.game)
+    @OneToMany(type => Round, round => round.game, {cascade: true})
     rounds?: Round[];
 
-    @OneToMany(type => Participant, participant => participant.game)
+    @OneToMany(type => Participant, participant => participant.game, {cascade: true})
     participants: Participant[];
 }
