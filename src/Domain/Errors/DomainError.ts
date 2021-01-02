@@ -8,7 +8,7 @@ export class ApplicationError extends Error {
 }
 
 export class DomainError extends ApplicationError {
-    domain: true;
+    domain: boolean = true;
     constructor(message: string) {
         super(message);
     }
