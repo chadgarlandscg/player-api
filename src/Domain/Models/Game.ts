@@ -11,6 +11,7 @@ export interface IGame extends IDto {
     readonly lobbyName: string;
     readonly lobbyCapacity: number;
     readonly lobbyThreshold: number;
+    readonly startAutomatically: boolean;
     readonly participants: Participant[];
     readonly bestOf: number;
     readonly status: GameStatus;
@@ -21,6 +22,7 @@ export class GameState extends AggregateState implements IGame {
     public lobbyName: string;
     public lobbyCapacity: number;
     public lobbyThreshold: number;
+    public startAutomatically: boolean;
     public participants: Participant[];
     public bestOf: number;
     public status: GameStatus;
@@ -62,6 +64,10 @@ export class Game extends Aggregate<GameState> implements IGame {
         return this.lobby.participants;
     }
 
+    get startAutomatically(): boolean {
+        return this.state.startAutomatically;
+    }
+
     get status(): GameStatus {
         return this.state.status || GameStatus.Created;
     }
@@ -74,7 +80,6 @@ export class Game extends Aggregate<GameState> implements IGame {
 
     constructor(
         state: GameState,
-        private readonly startAutomatically: boolean = false,
     ) {
         super(state);
         this.lobby = new Lobby(this.state.lobbyName, this.state.lobbyThreshold, this.state.lobbyCapacity, this.state.participants);
@@ -92,20 +97,34 @@ export class Game extends Aggregate<GameState> implements IGame {
         return this.status === GameStatus.Finished;
     }
 
-    addParticipant(participant: Participant): void {
-        if (this.isStarted() || this.isFinished()) {
+    addParticipant(playerId: number, name: string): void {
+        if (this.isPastSetup()) {
             throw new DomainError("Can't join a game that's started or ended.");
         }
-        const newLobby = this.lobby.withParticipant(participant);
+        const newLobby = this.lobby.withJoinedParticipant(playerId, name);
         this.lobby = newLobby;
-        if (this.lobby.fullAndReady() && this.startAutomatically) {
+        if (this.shouldAutoStart()) {
             this.start();
         }
     }
 
+    isPastSetup(): boolean {
+        return this.isStarted() || this.isFinished();
+    }
+
+    shouldAutoStart() {
+        return this.lobby.fullAndReady() && this.state.startAutomatically;
+    }
+
     start(): void {
-        if (this.isStarted() || this.isFinished()) {
+        if (this.isPastSetup()) {
             throw new DomainError("Can't start a game that's started or ended.");
+        }
+        if (!this.lobby.isFullEnough()) {
+            throw new DomainError("Can't start a game until lobby is full.");
+        }
+        if (!this.lobby.allReady()) {
+            throw new DomainError("Can't start a game until all players are ready.");
         }
         this.state.status = GameStatus.Started;
     }

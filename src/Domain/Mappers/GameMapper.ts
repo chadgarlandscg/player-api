@@ -22,6 +22,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         gameState.lobbyName = gameData.lobbyName;
         gameState.lobbyThreshold = gameData.lobbyThreshold;
         gameState.lobbyCapacity = gameData.lobbyCapacity;
+        gameState.startAutomatically = gameData.startAutomatically;
         gameState.bestOf = gameData.bestOf;
         gameState.status = gameData.status;
         gameState.type = gameData.gameType || originalAggregate.type;
@@ -45,6 +46,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         gameData.lobbyName = game.lobbyName;
         gameData.lobbyThreshold = game.lobbyThreshold;
         gameData.lobbyCapacity = game.lobbyCapacity;
+        gameData.startAutomatically = game.startAutomatically;
         gameData.bestOf = game.bestOf;
         gameData.participants = game.participants && this.toParticipantDataModels(game);
 
@@ -72,8 +74,9 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
         gameView.lobbyName = gameDto.lobbyName;
         gameView.lobbyThreshold = gameDto.lobbyThreshold;
         gameView.lobbyCapacity = gameDto.lobbyCapacity;
+        gameView.startAutomatically = gameDto.startAutomatically;
         gameView.gameTypeId = gameDto.type.id;
-        gameView.gameType = gameDto.type?.name;
+        gameView.gameType = gameDto.type.name;
         gameView.bestOf = gameDto.bestOf;
         gameView.status = gameDto.status;
         gameView.participants = gameDto.participants;
@@ -88,6 +91,7 @@ export class GameMapper implements IGameRepositoryMapper, IGameViewMapper, IGame
             lobbyName: game.lobbyName,
             lobbyThreshold: game.lobbyThreshold,
             lobbyCapacity: game.lobbyCapacity,
+            startAutomatically: game.startAutomatically,
             bestOf: game.bestOf,
             status: game.status,
             participants: game.participants,

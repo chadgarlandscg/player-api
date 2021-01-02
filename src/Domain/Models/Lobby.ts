@@ -11,6 +11,7 @@ export class Lobby extends ValueObject {
         public readonly threshold: number,
         public readonly capacity: number,
         public readonly participants: Participant[] = [],
+        public readonly isPrivate: boolean = false
     ) {
         super();
         if (!this.threshold || !this.capacity || !this.name) {
@@ -44,7 +45,7 @@ export class Lobby extends ValueObject {
         return this.isFull() && this.allReady();
     }
 
-    invites(): Participant[] {
+    invitations(): Participant[] {
         return this.participants.filter(p => p.isInvited());
     }
 
@@ -60,11 +61,36 @@ export class Lobby extends ValueObject {
         return this.participants.filter(p => p.isReady());
     }
 
-    withParticipant(participant: Participant): Lobby {
+    private withParticipant(participant: Participant): Lobby {
         if (this.isFull()) {
             throw new LobbyFullError();
-        }
-            
+        }           
         return new Lobby(this.name, this.threshold, this.capacity, [...this.participants, participant]);
+    }
+
+    withJoinedParticipant(playerId: number, name: string): Lobby {
+        if (this.needsInvitation(playerId)) {
+            throw new DomainError("This lobby requires an invitation in order to join");
+        }
+        return this.withParticipant(new Participant(name, playerId));
+    }
+
+    withInvitation(playerId: number, name: string): Lobby {
+        if (this.alreadyInvited(playerId)) {
+            throw new DomainError("This participant has already been invited to the lobby");
+        }
+        return this.withParticipant(new Participant(name, playerId, ParticipantStatus.Invited));
+    }
+
+    alreadyInvited(playerId: number): boolean {
+        return !!this.invitations().find(p => p.playerId === playerId);
+    }
+
+    needsInvitation(playerId: number): boolean {
+        return !this.alreadyInvited(playerId) && this.isPrivate;
+    }
+
+    alreadyPresent(playerId: number): boolean {
+        return !!this.participantsPresent().find(p => p.playerId === playerId);
     }
 }

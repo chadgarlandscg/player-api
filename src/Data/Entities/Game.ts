@@ -23,6 +23,9 @@ export class Game implements IDataEntity {
     lobbyCapacity: number;
 
     @Column()
+    startAutomatically: boolean;
+
+    @Column()
     bestOf: number;
 
     @Column({

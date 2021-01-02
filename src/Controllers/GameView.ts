@@ -10,6 +10,8 @@ export class GameView {
     lobbyThreshold: number;
     lobbyCapacity: number;
 
+    startAutomatically: boolean;
+
     bestOf: number;
     status: GameStatus;
 

@@ -9,6 +9,7 @@ import { IGameSetupService } from "../../Domain/Services/GameSetupService";
 import { ParticipantStatus } from "../../Domain/Models/StandardTypes/ParticipantStatus";
 import { IGameServiceMapper } from "../../Domain/Mappers/IGameMapper";
 import { Participant } from "../../Domain/Models/Participant";
+import { CreateGameCommand } from "../../Domain/Commands/CreateGameCommand";
 
 @injectable()
 export class GameService extends Service<IGame, Game> implements IGameService {
@@ -22,11 +23,11 @@ export class GameService extends Service<IGame, Game> implements IGameService {
         super(gameRepository, gameMapper);
     }
 
-    async createGame(lobbyName: string, lobbyThreshold: number, lobbyCapacity: number, bestOf: number, gameTypeId: number): Promise<IGame> {
-        const newGame = await this.gameSetupService.createGameLobby(lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId);
+    async createGame(createGameCommand: CreateGameCommand): Promise<IGame> {
+        const newGame = await this.gameSetupService.createGameLobby(createGameCommand);
         const savedGame = await this.gameRepository.save(newGame);
 
-        const gameType = await this.gameRepository.getGameType(gameTypeId);
+        const gameType = await this.gameRepository.getGameType(createGameCommand.gameTypeId);
 
         return this.gameMapper.toDto(savedGame, gameType);
     }
@@ -34,8 +35,7 @@ export class GameService extends Service<IGame, Game> implements IGameService {
     async joinGame(gameId: number, playerId: number, playerName: string): Promise<IGame> {
         const game = await this.gameRepository.get(gameId);
 
-        const participant = new Participant(playerName, playerId);
-        game.addParticipant(participant);
+        game.addParticipant(playerId, playerName);
 
         const savedGame = await this.gameRepository.save(game);
 

@@ -8,6 +8,7 @@ import { GameType } from "../Domain/Models/ConcreteGameType";
 import { Controller } from "../base/Controllers/Controller";
 import { IGame } from "../Domain/Models/Game";
 import { IGameViewMapper } from "../Domain/Mappers/IGameMapper";
+import { CreateGameCommand } from "../Domain/Commands/CreateGameCommand";
 
 @controller("/games")
 export class GameController extends Controller<GameView, IGame> implements interfaces.Controller {
@@ -30,18 +31,10 @@ export class GameController extends Controller<GameView, IGame> implements inter
 
     @httpPost("/")
     async create(
-        @requestBody() body: {
-            lobbyName: string,
-            lobbyThreshold: number,
-            lobbyCapacity: number,
-            bestOf: number,
-            gameTypeId: number,
-            gameTypeName: string
-        }
+        @requestBody() createGameCommand: CreateGameCommand
     ): Promise<GameView> {
-        const {lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId} = body;
-        if (!lobbyName) throw new Error('Lobby name must be provided!');
-        const newGame = await this.gameService.createGame(lobbyName, lobbyThreshold, lobbyCapacity, bestOf, gameTypeId);
+        if (!createGameCommand.lobbyName) throw new Error('Lobby name must be provided!');
+        const newGame = await this.gameService.createGame(createGameCommand);
         return this.gameMapper.toView(newGame);
     }
 
